@@ -7,9 +7,9 @@ def cleanInput(str):
 	''' Removes any control characters that out HTML might be screwed up by
 	'''
 	charsToRemove = ';,\\/:\'"<>@'
-    for ch in charsToRemove:
-        str = str.replace(ch, '')
-    return str
+	for ch in charsToRemove:
+		str = str.replace(ch, '')
+	return str
 
 def getParametersFromFormOrDefaults():
 	''' This function will always return a py dictionary of the params we care about.
@@ -19,9 +19,12 @@ def getParametersFromFormOrDefaults():
 		instead of nil (or whatever null value Python uses...)
     '''
 	parameters = {'search':''}
-	form = cgi.FieldStorage()
-	if 'search' in form:
-		parameters['search'] = cleanInput(form['search'].value)
+	try:
+		form = cgi.FieldStorage()
+		if 'search' in form:
+			parameters['search'] = cleanInput(form['search'].value)
+	except Exception, e:
+		parameters = {'search':'nothing'}
 	return parameters
 	
 	
@@ -31,8 +34,8 @@ def main():
 	''' Gets the parameters from defaults or a cgi form, and prints the HTML page
 	'''
 	parameters = getParametersFromFormOrDefaults()
-	print 'Content-type: text/html\r\n\r\n',
-	print(getPageAsHTML(parameters['search']))
+	print '''Content-type: text/html\r\n\r\n''',
+	print(getPageAsHTML(parameters['search'])),
 
 def getPageAsHTML(searchString):
 	''' Constructs and returns an HTML formatted string that can be printed, and thus
@@ -44,9 +47,9 @@ def getPageAsHTML(searchString):
 		clear expectations about it's contents. It feels more safe to do it this way,
 		even though design and code files aren't supposed to be together.
 	'''
-	page = '<!DOCTYPE HTML>'
-	page += '''
-		<html>
+	
+	page = '''<!DOCTYPE HTML>'''
+	page += '''<html>
 		<head>
 			<title>webapptest</title>
 		</head>
@@ -76,4 +79,11 @@ def getSearchResultsAsHTML(searchString):
 		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
 	'''
 	#TODO : Implement
-	return '''<p>Search Results for : %s</p>''' % searchString
+	if searchString == '':
+		return '''<p>Search using the field above to get started!</p>'''
+	else:
+		return '''<p>Search Results for : %s</p>''' % searchString
+
+
+if __name__ == '__main__':
+	main()
