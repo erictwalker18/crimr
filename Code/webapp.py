@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import cgi
+import psycopg2
 
 #UTILITY METHODS
 def cleanInput(str):
@@ -78,7 +79,10 @@ def getSearchResultsAsHTML(searchString):
 	''' Returns the search results form the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
 	'''
-	#TODO : Implement
+	#Begin Connections
+
+
+	#Construct Results as HTML
 	if searchString == '':
 		return '''<p>Search using the field above to get started!</p>'''
 	else:
