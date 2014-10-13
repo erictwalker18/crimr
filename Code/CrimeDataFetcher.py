@@ -29,6 +29,7 @@ class CrimeDataFetcher:
     def closeConnection(self):
         self.connection.close()
 
+	#Deprecated. Execute cursor queries using cursor.execute(query, (formatStrParam, ))
     def cleanInput(self, str):
         ''' Removes any control characters that out HTML might be screwed up by
         '''
@@ -46,12 +47,15 @@ class CrimeDataFetcher:
             table.append(rowData)
         return table
 
-    #ACCESSing DATA
+    #ACCESSING DATA
     def getAllCrimesFromDistrict(self, districtString):
         ''' Returns a table of the crimes of all the crimes in the district'''
         cursor = self.getNewCursor()
-        query = 'SELECT * FROM crimes WHERE district=\'%s\' ORDER BY crime_id DESC' % self.cleanInput(districtString.upper())
-        cursor.execute(query)
+        
+        #Execute the query in a safe manner, taking advantage of .execute()'s format
+        #str compatibility & helpful injection attack detection. 
+        query = 'SELECT * FROM crimes WHERE district=%s ORDER BY crime_id DESC'
+        cursor.execute(query, (districtString.upper(),))
         
         #Construct a 2D array of all the information from the query
         return self.createTableFromCursor(cursor)

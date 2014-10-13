@@ -76,8 +76,9 @@ def getPageAsHTML(searchString):
 		</head>
 
 		<body>			
-			<h4>CRIMR Phase_2 - imhoffc, earleyg, walkere</h4>
+			<h3>CRIMR Phase_2 - imhoffc, earleyg, walkere</h3>
 			
+			<h4>Search</h4>
 			<p> Type in a district (such as Tenderloin or Central):</p>
 			
 			<!-- form -->
@@ -90,8 +91,11 @@ def getPageAsHTML(searchString):
 			%s
 			
 			<!-- links -->
-			<p> <a href="showsource.py?source=webapp.py">Webapp.py Source Code</a> </p>
+			<h4>Source Code</h4>
+			<p> <a href="showsource.py?source=webapp.py">webapp.py Source Code</a> </p>
 			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
+			<p> <a href="showsource.py?source=showsource.py">showsource.py Source Code</a> </p>
+
 
 		</body>
 		</html>
