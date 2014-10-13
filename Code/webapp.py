@@ -20,9 +20,8 @@
 '''
 
 import cgi
-import cgitb
-cgitb.enable()
-import psycopg2
+
+from CrimeDataFetcher import CrimeDataFetcher
 
 #UTILITY METHODS
 def cleanInput(str):
@@ -76,20 +75,23 @@ def getPageAsHTML(searchString):
 			<title>webapp</title>
 		</head>
 
-		<body>
-			<h2>webapp.py</h2>
+		<body>			
+			<h4>CRIMR Phase_2 - imhoffc, earleyg, walkere</h4>
+			
+			<p> Type in a district (such as Tenderloin or Central):</p>
 			
 			<!-- form -->
 			<form action="webapp.py" method="get">
-				<p>Appease Us:<input type="text" name="search" value="%s" /></p>
-				<p><input type="submit" value="Find All Crime in Tenderloin District!" /></p>
+				<p>Search District:<input type="text" name="search" value="%s" /></p>
+				<p><input type="submit" value="Find All Crime by District" /></p>
 			</form>
 
 			<!-- results get popped in here -->
 			%s
 			
 			<!-- links -->
-			<p> <a href="showsource.py?source=webapp.py">Source Code</a> </p>
+			<p> <a href="showsource.py?source=webapp.py">Webapp.py Source Code</a> </p>
+			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
 
 		</body>
 		</html>
@@ -103,26 +105,25 @@ def getSearchResultsAsHTML(searchString):
 	'''
 	
 	if searchString == '':
-		return 'type something in to make us like you, then we\'ll print results'
+		return 'Please input something to get started!'
 	
 	outputString = ''
 	try:
-		connection = psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
+		dataFetcher = CrimeDataFetcher()
 		try:
-			cursor = connection.cursor()
-			query = 'SELECT * FROM crimes WHERE district=\'TENDERLOIN\' ORDER BY crime_id DESC'
-			cursor.execute(query)
+			outputTable = dataFetcher.getAllCrimesFromDistrict(searchString)
 			outputString += '<table border="1">'
 			outputString += '<tr> <th>Crime ID</th> <th>Category</th> <th>Description</th> <th>Day of Week</th> <th>Date</th> <th>District</th> <th>Resolution</th> </tr>'
-			for row in cursor:
+			for row in outputTable:
 				outputString += '<tr> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> </tr>' % (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
 			outputString += '</table>'
 	
 		except Exception, e:
-			outputString +=  'Cursor error', e
+			outputString +=  'Cursor error: %s' % e
 	except Exception, e:
-		outputString += 'Connection error: ', e
-									
+		outputString += 'Connection error: %s' % e
+	
+	dataFetcher.closeConnection()			
 	return outputString
 
 if __name__ == '__main__':

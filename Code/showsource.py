@@ -37,6 +37,7 @@ if __name__ == '__main__':
         'showsource.py',
         'tinywebapp.py',
         'webapp.py',
+		'CrimeDataFetcher.py'
     )
 
     # Really. Don't trust the user.
