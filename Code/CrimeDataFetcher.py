@@ -15,21 +15,16 @@ class CrimeDataFetcher:
     Our DataSource.py equivalent. CrimeDataFetcher is a great little interface for
     automatically setting up an psql connection, grabbing a cursor, and filling a table
     with results from said cursor.
-    
-    Users of this class are trusted to close the connection when they are done
     '''
 
     #UTILITY METHODS
     def __init__(self):
-        self.connection = psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
+        pass
     
-    def getNewCursor(self):
-        return self.connection.cursor()
+    def _getConnection(self):
+        return psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
 
-    def closeConnection(self):
-        self.connection.close()
-
-	#Deprecated. Execute cursor queries using cursor.execute(query, (formatStrParam, ))
+    #Deprecated. Execute cursor queries using cursor.execute(query, (formatStrParam, ))
     def cleanInput(self, str):
         ''' Removes any control characters that out HTML might be screwed up by
         '''
@@ -50,15 +45,22 @@ class CrimeDataFetcher:
     #ACCESSING DATA
     def getAllCrimesFromDistrict(self, districtString):
         ''' Returns a table of the crimes of all the crimes in the district'''
-        cursor = self.getNewCursor()
+        connection = self._getConnection()
+        if connection is not None:
+            cursor = connection.cursor()
         
-        #Execute the query in a safe manner, taking advantage of .execute()'s format
-        #str compatibility & helpful injection attack detection. 
-        query = 'SELECT * FROM crimes WHERE district=%s ORDER BY crime_id DESC'
-        cursor.execute(query, (districtString.upper(),))
-        
-        #Construct a 2D array of all the information from the query
-        return self.createTableFromCursor(cursor)
+            #Execute the query in a safe manner, taking advantage of .execute()'s format
+            #str compatibility & helpful injection attack detection. 
+            query = 'SELECT * FROM crimes WHERE district=%s ORDER BY crime_id DESC'
+            cursor.execute(query, (districtString.upper(),))
+            
+            #Construct a 2D array of all the information from the query
+            table = self.createTableFromCursor(cursor)
+            connection.close() #we're done with the connection
+            return table
+            
+        #else
+        return [[]]
         
     def getAllCrimesByCategory(self, catString):
         ''' Returns a table of the crimes of all the crimes in a category'''

@@ -20,6 +20,8 @@
 '''
 
 import cgi
+import cgitb
+cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 
@@ -127,7 +129,6 @@ def getSearchResultsAsHTML(searchString):
 	except Exception, e:
 		outputString += 'Connection error: %s' % e
 	
-	dataFetcher.closeConnection()			
 	return outputString
 
 if __name__ == '__main__':
