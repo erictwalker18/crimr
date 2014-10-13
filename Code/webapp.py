@@ -1,6 +1,27 @@
 #!/usr/bin/python
 
+'''
+	CRIMR
+	
+	webapp.py (phase_2)
+	
+	Charlie Imhoff,
+	Graham Earley,
+	Eric Walker
+'''
+
+'''
+	This file was made with the intention of searching the dataset, but upon further work
+	we realized that it was impractical to implement a total search right now.
+	
+	Because of this, the user experience now using a form to ask for an appeasement, before the
+	data is loaded. This is filed around as a 'search', and comments in this document refer to it
+	as such. But it is not a search, it's simply an activator for the form.
+'''
+
 import cgi
+import cgitb
+cgitb.enable()
 import psycopg2
 
 #UTILITY METHODS
@@ -52,22 +73,23 @@ def getPageAsHTML(searchString):
 	page = '''<!DOCTYPE HTML>'''
 	page += '''<html>
 		<head>
-			<title>webapptest</title>
+			<title>webapp</title>
 		</head>
 
 		<body>
-			<h2>webapptest.py</h2>
+			<h2>webapp.py</h2>
 			
 			<!-- form -->
-			<form action="webapptest.py" method="get">
-				<p>Search Crimr:<input type="text" name="search" value="%s" /></p>
-				<p><input type="submit" value="Go" /></p>
+			<form action="webapp.py" method="get">
+				<p>Appease Us:<input type="text" name="search" value="%s" /></p>
+				<p><input type="submit" value="Find All Crime in Tenderloin District!" /></p>
 			</form>
 
 			<!-- results get popped in here -->
 			%s
 			
 			<!-- links -->
+			<p> <a href="showsource.py?source=webapp.py">Source Code</a> </p>
 
 		</body>
 		</html>
@@ -79,15 +101,29 @@ def getSearchResultsAsHTML(searchString):
 	''' Returns the search results form the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
 	'''
-	#Begin Connections
-
-
-	#Construct Results as HTML
+	
 	if searchString == '':
-		return '''<p>Search using the field above to get started!</p>'''
-	else:
-		return '''<p>Search Results for : %s</p>''' % searchString
-
+		return 'type something in to make us like you, then we\'ll print results'
+	
+	outputString = ''
+	try:
+		connection = psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
+		try:
+			cursor = connection.cursor()
+			query = 'SELECT * FROM crimes WHERE district=\'TENDERLOIN\' ORDER BY crime_id DESC'
+			cursor.execute(query)
+			outputString += '<table border="1">'
+			outputString += '<tr> <th>Crime ID</th> <th>Category</th> <th>Description</th> <th>Day of Week</th> <th>Date</th> <th>District</th> <th>Resolution</th> </tr>'
+			for row in cursor:
+				outputString += '<tr> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> </tr>' % (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+			outputString += '</table>'
+	
+		except Exception, e:
+			outputString +=  'Cursor error', e
+	except Exception, e:
+		outputString += 'Connection error: ', e
+									
+	return outputString
 
 if __name__ == '__main__':
 	main()

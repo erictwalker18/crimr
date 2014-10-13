@@ -8,6 +8,12 @@
     this simpler idea. We'll see if it's any easier to use.
 '''
 
+'''
+	used by CRIMR
+	
+	showsource.py (phase_2)
+'''
+
 import cgi
 
 def printFileAsPlainText(fileName):
