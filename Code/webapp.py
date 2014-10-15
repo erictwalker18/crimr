@@ -22,6 +22,7 @@ import cgitb
 cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
+import CrimrHTMLBuilder
 
 #UTILITY METHODS
 def cleanInput(str):
@@ -55,7 +56,7 @@ def main():
 	''' Gets the parameters from defaults or a cgi form, and prints the HTML page
 	'''
 	parameters = getParametersFromFormOrDefaults()
-	print '''Content-type: text/html\r\n\r\n''',
+	print CrimrHTMLBuilder.getStartingSequence(),
 	print(getPageAsHTML(parameters['search'])),
 
 def getPageAsHTML(searchString):
@@ -69,15 +70,9 @@ def getPageAsHTML(searchString):
 		even though design and code files aren't supposed to be together.
 	'''
 
-	page = '''<!DOCTYPE HTML>'''
-	page += '''<html>
-		<head>
-			<title>webapp</title>
-		</head>
-
-		<body>
-			<h3>CRIMR Phase_2 - imhoffc, earleyg, walkere</h3>
-
+	page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
+	page += CrimrHTMLBuilder.getTopOfBody('Homepage')
+	page += '''
 			<h4>Search</h4>
 			<p> Type in a district (such as Tenderloin or Central):</p>
 
@@ -95,11 +90,9 @@ def getPageAsHTML(searchString):
 			<p> <a href="showsource.py?source=webapp.py">webapp.py Source Code</a> </p>
 			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
 			<p> <a href="showsource.py?source=showsource.py">showsource.py Source Code</a> </p>
-
-
-		</body>
-		</html>
+			
 		''' % (searchString, getSearchResultsAsHTML(searchString))
+	page += CrimrHTMLBuilder.getClosingHTML()
 
 	return page
 
@@ -116,12 +109,8 @@ def getSearchResultsAsHTML(searchString):
 		dataFetcher = CrimeDataFetcher()
 		try:
 			outputTable = dataFetcher.getAllCrimesFromDistrict(searchString)
-			outputString += '<table border="1">'
-			outputString += '<tr> <th>Crime ID</th> <th>Category</th> <th>Description</th> <th>Day of Week</th> <th>Date</th> <th>District</th> <th>Resolution</th> </tr>'
-			for row in outputTable:
-				outputString += '<tr> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> <td> %s </td> </tr>' % (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-			outputString += '</table>'
-
+			headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution']
+			outputString += CrimrHTMLBuilder.getHTMLTable(headers,outputTable)
 		except Exception, e:
 			outputString +=  'Cursor error: %s' % e
 	except Exception, e:
