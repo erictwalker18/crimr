@@ -22,7 +22,7 @@ import cgitb
 cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
-import CrimrHTMLBuilder
+from CrimrHTMLBuilder import CrimrHTMLBuilder
 
 #UTILITY METHODS
 def cleanInput(str):
@@ -87,9 +87,10 @@ def getPageAsHTML(searchString):
 
 			<!-- links -->
 			<h4>Source Code</h4>
-			<p> <a href="showsource.py?source=webapp.py">webapp.py Source Code</a> </p>
-			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
-			<p> <a href="showsource.py?source=showsource.py">showsource.py Source Code</a> </p>
+			<p> <a href="showsource.py?source=webapp.py">webapp.py</a> </p>
+			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a> </p>
+			<p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
+			<p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
 			
 		''' % (searchString, getSearchResultsAsHTML(searchString))
 	page += CrimrHTMLBuilder.getClosingHTML()
