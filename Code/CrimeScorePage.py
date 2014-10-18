@@ -18,13 +18,18 @@ from CrimeScore import CrimeScore
 
 #UTILITY METHODS
 def getCategoryList():
-  '''Make this query the database!'''
+  ''' Returns a list of the categories of crime
+      (using CrimeDataFetcher to query the database)
+  '''
+              '''Make this query the database!'''###
 
   return ["ARSON", "ASSAULT", "BAD CHECKS", "BRIBERY", "BURGLARY", "DISORDERLY CONDUCT", "DRIVING UNDER THE INFLUENCE", "DRUG/NARCOTIC", "DRUNKENNESS", "EMBEZZLEMENT", "EXTORTION", "FAMILY OFFENSES", "FORGERY/COUNTERFEITING", "FRAUD", "GAMBLING", "KIDNAPPING", "LARCENY/THEFT", "LIQUOR LAWS", "LOITERING", \
   "MISSING PERSON", "NON-CRIMINAL", "OTHER OFFENSES", "PORNOGRAPHY/OBSCENE MATERIAL", "PROSTITUTION", "ROBBERY", "RUNAWAY", "SEX OFFENSES, FORCIBLE", "SEX OFFENSES, NON-FORCIBLE", "STOLEN PROPERTY", "SUICIDE", "SUSPICIOUS OCC", "TRESPASS", "VANDALISM", "VEHICLE THEFT", "WARRANTS", "WEAPON LAWS"]
 
 def getRatingsHashFromForm():
-  ''' COMMENT
+  ''' Uses the CGI library to pull out the user's
+      ratings of the crime categories. Then, it returns
+      them in a Python dictionary.
   '''
   categories = getCategoryList()
   parameters = {}
@@ -41,26 +46,24 @@ def getRatingsHashFromForm():
           parameters[category] = 0
 
   except Exception, e:
-    parameters = {'ERROR':e}
+    # If there's an error with the form, the dictionary will
+    # return with a key and value of zero.
+    parameters = {"ERROR":0}
 
   return parameters
 
+
 #PAGE CONSTRUCTION
 def main():
-  ''' Gets the category ratings, and prints the HTML page
+  ''' Prints the HTML page
   '''
   print '''Content-type: text/html\r\n\r\n''',
   print(getPageAsHTML()),
 
 def getPageAsHTML():
   ''' Constructs and returns an HTML formatted string that can be printed, and thus
-    fill the webpage with content!
-
-    I thought about linking this to a 'template.html' flat file, but it made more
-    sense to me (at this instant) that that technique would be pretty poorly coupled
-    as it would require a format string against a file that we would read without
-    clear expectations about it's contents. It feels more safe to do it this way,
-    even though design and code files aren't supposed to be together.
+      fill the webpage with content! This method also calls helper methods for
+      generating the HTML for the rating form and for the CrimeScore display.
   '''
 
   page = '''<!DOCTYPE HTML>'''
@@ -98,20 +101,23 @@ def getPageAsHTML():
   return page
 
 def getFormHTML():
+  ''' Builds the rating form's HTML. It goes through each category
+      and adds an HTML Select form with options 0-10 for each category.
+      Forms are put into a table for organizational purposes.
+  '''
+
   categories = getCategoryList()
   outputString = '<form action="CrimeScorePage.py" method="get">'
 
   tableEntryIndex = 0
-    # tableEntryIndex is used for splitting the table up.
+    # tableEntryIndex is used for dividing the table up into columns.
   outputString+= "<table style='width:100%'><tr align='center'>"
   for category in categories:
     if tableEntryIndex % 3 == 0:
       # After each third entry, end the row and start a new one:
       outputString += "</tr><tr align='center'>"
 
-    # Add a 'select' form element for each category, with options
-    # 0 through 10 for ratings. Put them in a center-aligned table
-    # so it isn't overwhelming / ugly:
+    # Add the forms:
     outputString += "<td>"
     outputString += "<p>%s: </p>" % category
     outputString += '<select name="%s" id=%s>' % (category, category)
@@ -131,16 +137,21 @@ def getFormHTML():
   return outputString
 
 def getCrimeScoreHTMLString():
+  ''' Returns an HTML-ified string that is either blank
+      or tells the the calculated CrimeScore.
+  '''
+
   ratingsHash = getRatingsHashFromForm()
   cs = CrimeScore(ratingsHash)
   score = cs.calculateCrimeScore()
 
-  if ratingsHash.keys == ['ERROR'] or len(ratingsHash) == 0:
+  if ratingsHash.keys == ["ERROR"] or len(ratingsHash) == 0:
+    # If there's an error or the user hasn't filled in ratings yet,
+    # there's no CrimeScore to return!
     return ""
+
   else: #so, if the hash table is populated
     return "<i>Your CrimeScore:</i> <b>%i</b>" % score
-
-  return HTMLstring
 
 
 if __name__ == '__main__':
