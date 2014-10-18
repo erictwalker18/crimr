@@ -10,7 +10,7 @@
 
 '''
 	used by CRIMR
-	
+
 	showsource.py (phase_2)
 '''
 
@@ -37,7 +37,9 @@ if __name__ == '__main__':
         'showsource.py',
         'tinywebapp.py',
         'webapp.py',
-		'CrimeDataFetcher.py'
+		    'CrimeDataFetcher.py',
+        'CrimeScorePage.py',
+        'CrimeScore.py'
     )
 
     # Really. Don't trust the user.
@@ -50,4 +52,3 @@ if __name__ == '__main__':
 
     # Print the file in question.
     printFileAsPlainText(sourceFileName)
-
