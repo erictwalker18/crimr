@@ -36,7 +36,7 @@ class CrimrHTMLBuilder:
 			setting param title as the title
 		'''
 		
-		template = '''<!DOCTYPE HTML> <html> <head>[[TITLE]]</head>'''
+		template = '''<!DOCTYPE HTML> <html> <head><title>[[TITLE]]</title></head>'''
 		html = template.replace('[[TITLE]]',title)
 		return html
 	
@@ -77,7 +77,7 @@ class CrimrHTMLBuilder:
 		'''
 		
 		template = '''<body>
-		<h1>CRIMR</h1>
+		<img="Logo.png" width="400" height="300" id="picture">
 		<h2>[[SUBPAGE_HEADER]]</h2>
 		'''
 		html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
