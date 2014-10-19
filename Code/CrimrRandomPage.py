@@ -48,7 +48,7 @@ def main():
     print CrimrHTMLBuilder.getStartingSequence(),
     print(getPageAsHTML(parameter)),
 
-def getPageAsHTML(searchString):
+def getPageAsHTML(crimeID):
     ''' Constructs and returns an HTML formatted string that can be printed, and thus
         fill the webpage with content!
 
@@ -71,7 +71,13 @@ def getPageAsHTML(searchString):
             </form>
 
             <!-- results get popped in here -->
+            <div id="info">
             %s
+            </div>
+
+            <div id="features">
+            
+            </div>
 
             <!-- links -->
             <h4>Source Code</h4>
@@ -80,12 +86,12 @@ def getPageAsHTML(searchString):
             <p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
             <p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
             
-        ''' % (getSearchResultsAsHTML(searchString))
+        ''' % (getRandomAsHTML(crimeID))
     page += CrimrHTMLBuilder.getClosingHTML()
 
     return page
 
-def getSearchResultsAsHTML():
+def getRandomAsHTML(crimeID):
     ''' Returns the search results form the PSQL database, formatted into an HTML String
         Will be placed directly into the output String of 'getPageAsHTML()'
     '''
@@ -94,9 +100,9 @@ def getSearchResultsAsHTML():
     try:
         dataFetcher = CrimeDataFetcher()
         try:
-            outputTable = dataFetcher.getAllCrimesFromDistrict(searchString)
+            outputTable = dataFetcher.getCrimeFromID(crimeID)
             headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
-            outputString += CrimrHTMLBuilder.getHTMLTable(headers,outputTable)
+            outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
         except Exception, e:
             outputString +=  'Cursor error: %s' % e
     except Exception, e:

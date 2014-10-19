@@ -67,6 +67,37 @@ class CrimrHTMLBuilder:
 				html += '</tr>'
 		html += '</table>'
 		return html
+
+        @staticmethod
+	def getHTMLVertTable(headings, data):
+                '''
+                        Returns an HTML string that creates, fills, and closes
+                        a vertical Table tag.
+
+                        This parameter setup is designed to interface
+                        with CrimeDataFetcher.py
+
+                        params:
+                                -headings: String[] : Gets formatted into the list as the header column
+                                -data: String[]? : Gets formatted into the html as a table
+                '''
+                html = '<table border="1">'
+		if headings is not None and data is not None:
+			for header in headings:
+                                html += '<tr>'
+				html += '<th>%s</th>' % header
+				for row in data:
+                                        for cell in row:
+                                                html += '<td>%s</td>' % cell
+                                html += '</tr>'
+			
+		elif headings is not None:
+                        for header in headings:
+				html += '<th>%s</th>' % header
+			html += '</tr>'
+			
+		html += '</table>'
+		return html
 	
 	@staticmethod
 	def getTopOfBody(subpageHeader):
