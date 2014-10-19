@@ -61,7 +61,47 @@ class CrimeDataFetcher:
             
         #else
         return [[]]
+
+    def getCrimeFromID(self, idNum):
+        ''' Returns a table containing the data from one crime, identified by the
+            ID number. '''
+        connection = self._getConnection()
+        if connection is not None:
+            cursor = connection.cursor()
         
+            #Execute the query in a safe manner, taking advantage of .execute()'s format
+            #str compatibility & helpful injection attack detection. 
+            query = 'SELECT * FROM crimes WHERE crime_id=%s'
+            cursor.execute(query, (idNum,))
+            
+            #Construct a 2D array of all the information from the query
+            table = self.createTableFromCursor(cursor)
+            connection.close() #we're done with the connection
+            return table
+            
+        #else
+        return [[]]
+
+    def getRandomCrimeID(self):
+        ''' Returns the ID of a random Crime'''
+        connection = self._getConnection()
+        if connection is not None:
+            cursor = connection.cursor()
+        
+            #Execute the query in a safe manner, taking advantage of .execute()'s format
+            #str compatibility & helpful injection attack detection. 
+            query = 'SELECT * FROM crimes ORDER BY random() limit 1'
+            cursor.execute(query, (idNum,))
+            
+            #Construct a 2D array of all the information from the query
+            table = self.createTableFromCursor(cursor)
+            connection.close() #we're done with the connection
+            #Extract the one number we need from the table
+            return table[0][0]
+            
+        #else
+        return 0
+
     def getAllCrimesByCategory(self, catString):
         ''' Returns a table of the crimes of all the crimes in a category'''
         #Implement later
