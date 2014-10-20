@@ -53,7 +53,6 @@ class CrimeDataFetcher:
     		Search Keys & Expected Types:
     			- 'search'		: String (will be bluntly searched against the table)
     			- 'district'	: String
-    			- 'crime_id'	: String
     			- 'category'	: String
     			- 'day'			: String
     			- 'resolution'	: String 
@@ -68,7 +67,7 @@ class CrimeDataFetcher:
         	
         	#for each possible parameter, check where it's present, 
         	#and if it is, append an extra condition to the query 
-        	if searchParams['search'] is not None:
+        	if searchParams['search'] is not None and searchParams['search'] != '':
         		search = self.cleanInput(searchParams['search'])
         		if queryHasWhere:
         			query += ' AND'
@@ -76,55 +75,47 @@ class CrimeDataFetcher:
         			query += ' WHERE'
         			queryHasWhere = True
         		#narrow with search
-        		longOr = ' (district LIKE [search] OR description LIKE [search] OR category LIKE [search] OR resolution LIKE [search])'
+        		longOr = " (district ILIKE '[search]' OR description ILIKE '[search]' OR category ILIKE '[search]' OR resolution ILIKE '[search]')"
         		query += longOr.replace('[search]',search)
         		
-        	if searchParams['district'] is not None:
+        	if searchParams['district'] is not None and searchParams['district'] != '-':
         		district = self.cleanInput(searchParams['district'])
         		if queryHasWhere:
         			query += ' AND'
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += ' district LIKE %s' % district
-        		
-        	if searchParams['crime_id'] is not None:
-        		crime_id = self.cleanInput(searchParams['crime_id'])
-        		if queryHasWhere:
-        			query += ' AND'
-        		else:
-        			query += ' WHERE'
-        			queryHasWhere = True
-        		query += ' crime_id=%s' % crime_id
+        		query += " district ILIKE '%s'" % district
         	
-        	if searchParams['category'] is not None:
+        	if searchParams['category'] is not None and searchParams['category'] != '-':
         		category = self.cleanInput(searchParams['category'])
         		if queryHasWhere:
         			query += ' AND'
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += ' category LIKE %s' % category
+        		query += " category ILIKE '%s'" % category
         		
-        	if searchParams['resolution'] is not None:
+        	if searchParams['resolution'] is not None and searchParams['resolution'] != '-':
         		resolution = self.cleanInput(searchParams['resolution'])
         		if queryHasWhere:
         			query += ' AND'
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += ' resolution LIKE %s' % resolution
+        		query += " resolution ILIKE '%s'" % resolution
         		
-        	if searchParams['day'] is not None:
+        	if searchParams['day'] is not None and searchParams['day'] != '-':
         		day = self.cleanInput(searchParams['day'])
         		if queryHasWhere:
         			query += ' AND'
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += ' day LIKE %s' % day
+        		query += "' day ILIKE %s'" % day
         	
         	query += ' ORDER BY crime_id DESC'
+        	print "query : %s" % query
         	cursor.execute(query)
         	
         	#construct 2d array
@@ -132,7 +123,7 @@ class CrimeDataFetcher:
         	connection.close()
         	return table
         
-        #else
+        #else (on no connection)
         return [[]]
         	
 
@@ -153,7 +144,7 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             return table
             
-        #else
+        #else (on no connection)
         return [[]]
         
     def getAllCrimesByCategory(self, catString):

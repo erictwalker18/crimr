@@ -45,6 +45,14 @@ def getParametersFromFormOrDefaults():
 		form = cgi.FieldStorage()
 		if 'search' in form:
 			parameters['search'] = cleanInput(form['search'].value)
+		if 'district' in form:
+			parameters['district'] = cleanInput(form['district'].value)
+		if 'category' in form:
+			parameters['category'] = cleanInput(form['category'].value)
+		if 'day' in form:
+			parameters['day'] = cleanInput(form['day'].value)
+		if 'resolution' in form:
+			parameters['resolution'] = cleanInput(form['resolution'].value)
 	except Exception, e:
 		parameters = {'search':'nothing'}
 	return parameters
@@ -57,9 +65,9 @@ def main():
 	'''
 	parameters = getParametersFromFormOrDefaults()
 	print CrimrHTMLBuilder.getStartingSequence(),
-	print(getPageAsHTML(parameters['search'])),
+	print(getPageAsHTML(parameters)),
 
-def getPageAsHTML(searchString):
+def getPageAsHTML(parameters):
 	''' Constructs and returns an HTML formatted string that can be printed, and thus
 		fill the webpage with content!
 
@@ -74,13 +82,10 @@ def getPageAsHTML(searchString):
 	page += CrimrHTMLBuilder.getTopOfBody('Homepage')
 	page += '''
 			<h4>Search</h4>
-			<p> Type in a district (such as Tenderloin or Central):</p>
+			<p>Search All of CRIMR:</p>
 
 			<!-- form -->
-			<form action="webapp.py" method="get">
-				<p>Search District:<input type="text" name="search" value="%s" /></p>
-				<p><input type="submit" value="Find All Crime by District" /></p>
-			</form>
+			%s
 
 			<!-- results get popped in here -->
 			%s
@@ -92,24 +97,66 @@ def getPageAsHTML(searchString):
 			<p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
 			<p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
 			
-		''' % (searchString, getSearchResultsAsHTML(searchString))
+		''' % (getFormAsHTML(parameters), getSearchResultsAsHTML(parameters))
 	page += CrimrHTMLBuilder.getClosingHTML()
 
 	return page
 
-def getSearchResultsAsHTML(searchString):
+def getFormAsHTML(parameters):
+	html = '''<form action="webapp.py" method="get">
+				<!-- Text Search Box -->
+				<p>Search District:<input type="text" name="search" value="[SEARCH]" /></p>
+				<!-- Narrowing Dropdowns -->
+				<p>
+				by District:
+				<select name="district" id="district">
+					<option value="-">--</option>
+					<option value="tenderloin">Tenderloin</option>
+					<option value="central">Central</option>
+				</select>
+				by Category:
+				<select name="category" id="category">
+					<option value="-">--</option>
+					<option value="murder">Murder</option>
+					<option value="theft">Theft</option>
+				</select>
+				by Day of Week:
+				<select name="day" id="day">
+					<option value="-">--</option>
+					<option value="sunday">Sunday</option>
+					<option value="monday">Monday</option>
+					<option value="tuesday">Tuesday</option>
+					<option value="wednsday">Wednesday</option>
+					<option value="thursday">Thursday</option>
+					<option value="friday">Friday</option>
+					<option value="saturday">Saturday</option>
+				</select>
+				by Resolution:
+				<select name="resolution" id="resolution">
+					<option value="-">--</option>
+					<option value="none">None</option>
+					<option value="arrest">Arrest</option>
+					<option value="book">Booking</option>
+				</select>
+				</p>
+				<p><input type="submit" value="Find Crime" /></p>
+			</form>'''
+	filledHtml = html.replace('[SEARCH]',parameters['search'])
+	return filledHtml
+
+def getSearchResultsAsHTML(parameters):
 	''' Returns the search results form the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
 	'''
 
-	if searchString == '':
+	if parameters == '':
 		return 'Please input something to get started!'
 
 	outputString = ''
 	try:
 		dataFetcher = CrimeDataFetcher()
 		try:
-			outputTable = dataFetcher.getAllCrimesFromDistrict(searchString)
+			outputTable = dataFetcher.getCrimesForSearch(parameters)
 			headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution']
 			outputString += CrimrHTMLBuilder.getHTMLTable(headers,outputTable)
 		except Exception, e:
