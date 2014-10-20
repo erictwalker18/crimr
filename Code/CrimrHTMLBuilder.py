@@ -1,14 +1,15 @@
-
+#!/usr/bin/python
 '''
     CRIMR
     
-    webapp.py (phase_3)
+    CrimrHTMLBuilder.py (phase_3)
     
     Charlie Imhoff,
     Graham Earley,
     Eric Walker
 '''
-
+import cgitb
+cgitb.enable()
 '''
 	CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
 	blocks of HTML via a cleaner interface than directly printing in Phython
@@ -83,13 +84,17 @@ class CrimrHTMLBuilder:
                 '''
                 html = '<table border="1">'
 		if headings is not None and data is not None:
+                        i=0
 			for header in headings:
                                 html += '<tr>'
 				html += '<th>%s</th>' % header
+				html+= '<td>%s</td>' % data[0][i]
+                                '''
 				for row in data:
                                         for cell in row:
-                                                html += '<td>%s</td>' % cell
+                                                html += '<td>%s</td>' % cell '''
                                 html += '</tr>'
+                                i += 1
 			
 		elif headings is not None:
                         for header in headings:

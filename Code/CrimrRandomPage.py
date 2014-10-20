@@ -15,8 +15,8 @@
 '''
 
 import cgi
-#import cgitb
-#cgitb.enable()
+import cgitb
+cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 from CrimrHTMLBuilder import CrimrHTMLBuilder
@@ -30,21 +30,12 @@ def cleanInput(str):
         str = str.replace(ch, '')
     return str
 
-def getIDNumber():
-    ''' This function will always return a py dictionary of the params we care about.
-
-        It works by either filling in and cleaning these params from a CGI form,
-        or if none exists it just goes ahead and defines them as a blank string,
-        instead of nil (or whatever null value Python uses...)
-    '''
-    return getRandomCrimeID()
-
-
 #PAGE CONSTRUCTION
 def main():
     ''' Gets the parameters from a random algorithm in PSQL, and prints the HTML page
     '''
-    parameter = getIDNumber()
+    dataFetcher=CrimeDataFetcher()
+    parameter = dataFetcher.getRandomCrimeID()
     print CrimrHTMLBuilder.getStartingSequence(),
     print(getPageAsHTML(parameter)),
 
