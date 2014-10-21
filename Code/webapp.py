@@ -82,7 +82,6 @@ def getPageAsHTML(parameters):
 	page += CrimrHTMLBuilder.getTopOfBody('Homepage')
 	page += '''
 			<h4>Search</h4>
-			<p>Search All of CRIMR:</p>
 
 			<!-- form -->
 			%s
@@ -105,7 +104,7 @@ def getPageAsHTML(parameters):
 def getFormAsHTML(parameters):
 	html = '''<form action="webapp.py" method="get">
 				<!-- Text Search Box -->
-				<p>Search District:<input type="text" name="search" value="[SEARCH]" /></p>
+				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
 				<!-- Narrowing Dropdowns -->
 				<p>
 				by District:
