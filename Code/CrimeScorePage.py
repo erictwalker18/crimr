@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
 '''
-  CRIMR
+  CRIMR | CrimeScore
 
-  NOT FINALIZED
-
-  DO NOT RELEASE!!
+  This program generates the HTML output for the
+  CrimeScore page. It calls on CrimeDataFetcher.py
+  and CrimeScore.py in order to get the information
+  required to tell the user their CrimeScore.
 
 '''
 
@@ -15,16 +16,16 @@ cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 from CrimeScore import CrimeScore
+from CrimrHTMLBuilder import CrimrHTMLBuilder
 
-#UTILITY METHODS
+# UTILITY METHODS:
 def getCategoryList():
   ''' Returns a list of the categories of crime
       (using CrimeDataFetcher to query the database)
   '''
-              '''Make this query the database!'''###
-
-  return ["ARSON", "ASSAULT", "BAD CHECKS", "BRIBERY", "BURGLARY", "DISORDERLY CONDUCT", "DRIVING UNDER THE INFLUENCE", "DRUG/NARCOTIC", "DRUNKENNESS", "EMBEZZLEMENT", "EXTORTION", "FAMILY OFFENSES", "FORGERY/COUNTERFEITING", "FRAUD", "GAMBLING", "KIDNAPPING", "LARCENY/THEFT", "LIQUOR LAWS", "LOITERING", \
-  "MISSING PERSON", "NON-CRIMINAL", "OTHER OFFENSES", "PORNOGRAPHY/OBSCENE MATERIAL", "PROSTITUTION", "ROBBERY", "RUNAWAY", "SEX OFFENSES, FORCIBLE", "SEX OFFENSES, NON-FORCIBLE", "STOLEN PROPERTY", "SUICIDE", "SUSPICIOUS OCC", "TRESPASS", "VANDALISM", "VEHICLE THEFT", "WARRANTS", "WEAPON LAWS"]
+  fetcher = CrimeDataFetcher()
+  categories = fetcher.getListOfCategories()
+  return categories
 
 def getRatingsHashFromForm():
   ''' Uses the CGI library to pull out the user's
@@ -53,12 +54,12 @@ def getRatingsHashFromForm():
   return parameters
 
 
-#PAGE CONSTRUCTION
+# PAGE CONSTRUCTION
 def main():
-  ''' Prints the HTML page
+  ''' Prints the HTML page (using the CrimrHTMLBuilder where applicable)
   '''
-  print '''Content-type: text/html\r\n\r\n''',
-  print(getPageAsHTML()),
+  print CrimrHTMLBuilder.getStartingSequence()
+  print(getPageAsHTML())
 
 def getPageAsHTML():
   ''' Constructs and returns an HTML formatted string that can be printed, and thus
@@ -66,37 +67,31 @@ def getPageAsHTML():
       generating the HTML for the rating form and for the CrimeScore display.
   '''
 
-  page = '''<!DOCTYPE HTML>'''
-  page += '''<html>
-    <head>
-      <title>CrimeScore</title>
-      <script src="http://code.jquery.com/jquery-git2.js"></script>
-    </head>
+  page = CrimrHTMLBuilder.getTopOfHTML("CrimeScore")
+  page += '''
+      <body>
+      <h1>CrimeScore</h1>
 
-    <body>
-      <h1>Crime Score</h1>
-      <h2>%s</h2>
+      <!-- CrimeScore presentation/readout:-->
+      %s
 
       <h3> Rate the crimes that scare you!</h3>
-      <p>For each category below, consider how scary those types of crimes are to you.</p>
+      <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
       <i>(0 = not scary, 10 = horrifying)</i>
       </br>
 
-      <!-- form gets popped in here-->
+      <!-- Crime rating form:-->
       %s
 
-      <!-- links -->
+      <!-- Source links -->
       <hr>
       <h4>Source Code</h4>
       <p> <a href="showsource.py?source=CrimeScore.py">CrimeScore.py Source Code</a> </p>
       <p> <a href="showsource.py?source=CrimeScorePage.py">CrimeScorePage.py Source Code</a> </p>
       <p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
       <p> <a href="showsource.py?source=showsource.py">showsource.py Source Code</a> </p>
-
-
-    </body>
-    </html>
-    ''' % (getCrimeScoreHTMLString(), getFormHTML())
+    ''' % (getCrimeScoreHTMLReadOut(), getFormHTML())
+  page += CrimrHTMLBuilder.getClosingHTML()
 
   return page
 
@@ -136,14 +131,13 @@ def getFormHTML():
 
   return outputString
 
-def getCrimeScoreHTMLString():
-  ''' Returns an HTML-ified string that is either blank
-      or tells the the calculated CrimeScore.
-  '''
+def getCrimeScore():
+  ''' Returns the calculated CrimeScore.'''
 
   ratingsHash = getRatingsHashFromForm()
   cs = CrimeScore(ratingsHash)
   score = cs.calculateCrimeScore()
+  commentary = cs.getScoreCommentary()
 
   if ratingsHash.keys == ["ERROR"] or len(ratingsHash) == 0:
     # If there's an error or the user hasn't filled in ratings yet,
@@ -151,7 +145,33 @@ def getCrimeScoreHTMLString():
     return ""
 
   else: #so, if the hash table is populated
-    return "<i>Your CrimeScore:</i> <b>%i</b>" % score
+    return score
+
+def getCrimeScoreCommentary():
+  '''Returns the CrimeScore's associated commentary.'''
+  ratingsHash = getRatingsHashFromForm()
+  cs = CrimeScore(ratingsHash)
+  return cs.getScoreCommentary()
+
+def getCrimeScoreHTMLReadOut():
+  '''Returns the HTML that presents the calculated CrimeScore.'''
+  ratingsHash = getRatingsHashFromForm()
+
+  if ratingsHash.keys == ["ERROR"] or len(ratingsHash) == 0:
+    # If there's an error or the user hasn't filled in ratings yet,
+    # there's no CrimeScore info to return!
+    return ""
+
+  else: #so, the user has rated the crimes
+    score = getCrimeScore()
+    commentary = getCrimeScoreCommentary()
+
+    outputString = "<h2>Your Personalized CrimeScore:</h2>"
+    outputString += "<h1>%i</h1>" % score
+    outputString += "<i>%s</i>" % commentary
+    outputString += "<hr>"
+
+    return outputString
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-import random # FOR TESTING PURPOSES!! REMOVE!!
+from CrimeDataFetcher import CrimeDataFetcher
 
 class CrimeScore:
   ''' The class that calculates CrimeScore values
@@ -11,51 +11,78 @@ class CrimeScore:
       # categories for keys and ratings (0-10) for
       # values.
 
-  def getTotalPoints(self):
-    ''' Determines the total points that
-        the user weighed stuff with.
-    '''
-    values = self.ratingsHash.values()
-    sum = 0
-    for value in values:
-      sum += int(value)
-      # The keys must be numbers!
-    return sum
-
-  def getWeightForCategory(self, category):
+  def getScoreForCategory(self, category):
     ''' Returns a float of the percent weight
         for the category (calculated by taking
         the 'rating points' given to the category
         divided by the total points given).
     '''
-    if category not in self.ratingsHash or int(self.ratingsHash[category]) == 0:
-      # The category has no weight if it wasn't given any points, so return 0.
-      return 0.0
+    if category not in self.ratingsHash:
+      return 0
     else:
-      categoryPoints = int(self.ratingsHash[category])
-      totalPoints = self.getTotalPoints()
+      return int(self.ratingsHash[category])
 
-      return categoryPoints/float(totalPoints)
+  def getTotalCrimesInDatabase(self):
+    '''Returns the total number of crimes (for all categories)'''
+    total = 0
+    fetcher = CrimeDataFetcher()
+    for category in self.ratingsHash.keys():
+      total += fetcher.getNumberOfCrimesInCategory(category)
+
+    return total
 
   def calculateCrimeScore(self):
     ''' Calculates the crime score by multiplying
-        the category ratings by their weights.
+        the category ratings by their user-given scores to obtain
+        a 'weighted' numerator. This number is normalized
+        by dividing by the total number of crimes in the
+        dataset multiplied by the highest possible amount of points (10)
+        to make the CrimeScore between 1 and 100.
     '''
-    score = 0
+    numerator = 0
     categories = self.ratingsHash.keys()
+    totalCrimes = self.getTotalCrimesInDatabase()
 
     for category in categories:
-      weightedCategoryScore = 0
+      # weightedCategoryScore = 0
       if category in self.ratingsHash:
-        weight = self.getWeightForCategory(category)
-        # numberOfCrimesInCategory = CrimeDataFetcher.numberOfCrimesInCategory(category)
-            # IMPLEMENT THAT ^^^
-        '''this is super temporary, FOR TESTING ONLY!!::'''
-        numberOfCrimesInCategory = random.choice([20,30,40,50,70]) # for now.
+        categoryScore = self.getScoreForCategory(category)
 
-        weightedCategoryScore = weight * numberOfCrimesInCategory
+        fetcher = CrimeDataFetcher()
+        numberOfCrimesInCategory = fetcher.getNumberOfCrimesInCategory(category)
 
-      score += weightedCategoryScore
+        weightedCategoryScore = categoryScore * numberOfCrimesInCategory
 
-    # CrimeScores have no time for decimals!:
-    return int(round(score))
+      numerator += weightedCategoryScore
+
+    quotient = float(numerator)/(totalCrimes * 10)
+
+    # Multiply by 100 and round to remove the decimal:
+    return round(quotient*100)
+
+  def getScoreCommentary(self, score = None):
+    '''Return a string comment characterizing the CrimeScore.
+    The score parameter is optional; use it to get a message for
+    a certain score, or leave it out and get the message for the
+    CrimeScore class's current score calculation.'''
+
+    if score == None:
+      score = self.calculateCrimeScore()
+    else: score = int(score)
+
+    if score < 10:
+      return "Either nothing scares you, or there's not much crime out there. Either way, you should feel pretty comfortable."
+    elif score < 20:
+      return "Things are pretty tame. Go ahead and walk the dog, but look behind you every now and then."
+    elif score < 40:
+      return "Be a bit cautious, but don't worry too much."
+    elif score < 60:
+      return "Be careful out there. Crime may be afoot."
+    elif score < 80:
+      return "Might want to take a raincheck. Let things die down a bit, you know?"
+    elif score < 100:
+      return "Things are not safe, by your standards. Stay inside, stay safe."
+    elif score == 100:
+      return "RED ALERT! Lock your doors and windows!!"
+
+    return ""
