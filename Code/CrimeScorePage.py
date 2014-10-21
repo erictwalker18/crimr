@@ -117,7 +117,10 @@ def getFormHTML():
     outputString += "<p>%s: </p>" % category
     outputString += '<select name="%s" id=%s>' % (category, category)
     for num in range(0,11):
-      outputString+= '<option value="%s">%i</option>' % (str(num), num)
+      if num == 2:
+        outputString+='option value="%s" selected>%i</option>' %(str(num),num)
+      else:
+        outputString+= '<option value="%s">%i</option>' % (str(num), num)
     outputString += '</select>'
     outputString += "</td>"
 
