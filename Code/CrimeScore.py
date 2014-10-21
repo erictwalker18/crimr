@@ -38,6 +38,8 @@ class CrimeScore:
         by dividing by the total number of crimes in the
         dataset multiplied by the highest possible amount of points (10)
         to make the CrimeScore between 1 and 100.
+
+        (for more info, see the methodology section of our README.html)
     '''
     numerator = 0
     categories = self.ratingsHash.keys()

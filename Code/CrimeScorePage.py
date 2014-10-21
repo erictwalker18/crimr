@@ -168,7 +168,8 @@ def getCrimeScoreHTMLReadOut():
 
     outputString = "<h2>Your Personalized CrimeScore:</h2>"
     outputString += "<h1>%i</h1>" % score
-    outputString += "<i>%s</i>" % commentary
+    outputString += "<h6>(scores range from 0 to 100)</h6>"
+    outputString += "<p>%s</p>" % commentary
     outputString += "<hr>"
 
     return outputString
