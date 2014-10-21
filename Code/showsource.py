@@ -10,7 +10,7 @@
 
 '''
 	used by CRIMR
-	
+
 	showsource.py (phase_2)
 '''
 
@@ -35,9 +35,11 @@ if __name__ == '__main__':
     # Not going to allow people to view just anything.
     allowedFiles = (
         'showsource.py',
+        'tinywebapp.py',
         'webapp.py',
-		'CrimeDataFetcher.py',
-		'CrimrHTMLBuilder.py'
+		    'CrimeDataFetcher.py',
+        'CrimeScorePage.py',
+        'CrimeScore.py'
     )
 
     # Really. Don't trust the user.
@@ -50,4 +52,3 @@ if __name__ == '__main__':
 
     # Print the file in question.
     printFileAsPlainText(sourceFileName)
-
