@@ -55,7 +55,7 @@ class CrimeDataFetcher:
     			- 'district'	: String
     			- 'category'	: String
     			- 'day'			: String
-    			- 'resolution'	: String 
+    			- 'resolution'	: String
     	'''
         connection = self._getConnection()
         if connection is not None:
@@ -75,8 +75,8 @@ class CrimeDataFetcher:
         			query += ' WHERE'
         			queryHasWhere = True
         		#narrow with search
-        		longOr = " (district ILIKE '[search]' OR description ILIKE '[search]' OR category ILIKE '[search]' OR resolution ILIKE '[search]')"
-        		query += longOr.replace('[search]',search)
+        		longOr = " (district ILIKE '%[search]%' OR description ILIKE '%[search]%' OR category ILIKE '%[search]%' OR resolution ILIKE '%[search]%' OR dayofweek ILIKE '[search]%')"
+        		query += longOr.replace("[search]",search)
         		
         	if searchParams['district'] is not None and searchParams['district'] != '-':
         		district = self.cleanInput(searchParams['district'])
@@ -85,7 +85,8 @@ class CrimeDataFetcher:
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += " district ILIKE '%s'" % district
+        		toQ = " district ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',district)
         	
         	if searchParams['category'] is not None and searchParams['category'] != '-':
         		category = self.cleanInput(searchParams['category'])
@@ -94,7 +95,8 @@ class CrimeDataFetcher:
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += " category ILIKE '%s'" % category
+        		toQ = " category ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',category)
         		
         	if searchParams['resolution'] is not None and searchParams['resolution'] != '-':
         		resolution = self.cleanInput(searchParams['resolution'])
@@ -103,8 +105,11 @@ class CrimeDataFetcher:
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += " resolution ILIKE '%s'" % resolution
-        		
+        		if resolution == '*resolved*':
+        			query += " (resolution NOT ILIKE 'none' AND resolution NOT ILIKE 'unfound')"
+        		else:
+        			toQ = " resolution ILIKE '%[s]%'"
+        			query += toQ.replace('[s]',resolution)
         	if searchParams['day'] is not None and searchParams['day'] != '-':
         		day = self.cleanInput(searchParams['day'])
         		if queryHasWhere:
@@ -112,7 +117,8 @@ class CrimeDataFetcher:
         		else:
         			query += ' WHERE'
         			queryHasWhere = True
-        		query += "' day ILIKE %s'" % day
+        		toQ = " dayofweek ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',day)
         	
         	query += ' ORDER BY crime_id DESC'
         	print "query : %s" % query

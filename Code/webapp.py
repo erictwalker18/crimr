@@ -113,12 +113,26 @@ def getFormAsHTML(parameters):
 					<option value="-">--</option>
 					<option value="tenderloin">Tenderloin</option>
 					<option value="central">Central</option>
+					<option value="bayview">Bayview</option>
+					<option value="ingleside">Ingleside</option>
+					<option value="mission">Mission</option>
+					<option value="northern">Northern</option>
+					<option value="park">Park</option>
+					<option value="southern">Southern</option>
+					<option value="taraval">Taraval</option>
+					<option value="richmond">Richmond</option>
 				</select>
 				by Category:
 				<select name="category" id="category">
 					<option value="-">--</option>
 					<option value="murder">Murder</option>
 					<option value="theft">Theft</option>
+					<option value="assault">Assault</option>
+					<option value="vandalism">Vandalism</option>
+					<option value="drug">Drug</option>
+					<option value="robbery">Robbery</option>
+					<option value="missing">Missing Person</option>
+					<option value="non-criminal">Non-Criminal</option>
 				</select>
 				by Day of Week:
 				<select name="day" id="day">
@@ -134,9 +148,13 @@ def getFormAsHTML(parameters):
 				by Resolution:
 				<select name="resolution" id="resolution">
 					<option value="-">--</option>
-					<option value="none">None</option>
+					<option value="*resolved*">Resolved</option> #special case
+					<option value="none">Unresolved</option>
 					<option value="arrest">Arrest</option>
 					<option value="book">Booking</option>
+					<option value="cite">Citing</option>
+					<option value="psychopathic">Psychopathic Case</option>
+					<option value="not prosecute">Not Prosecuted</option>
 				</select>
 				</p>
 				<p><input type="submit" value="Find Crime" /></p>
@@ -148,16 +166,12 @@ def getSearchResultsAsHTML(parameters):
 	''' Returns the search results form the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
 	'''
-
-	if parameters == '':
-		return 'Please input something to get started!'
-
 	outputString = ''
 	try:
 		dataFetcher = CrimeDataFetcher()
 		try:
 			outputTable = dataFetcher.getCrimesForSearch(parameters)
-			headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution']
+			headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
 			outputString += CrimrHTMLBuilder.getHTMLTable(headers,outputTable)
 		except Exception, e:
 			outputString +=  'Cursor error: %s' % e
