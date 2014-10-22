@@ -5,6 +5,9 @@ class CrimeScore:
       and other appropriate information about the
       user's rating of categories of crime.
   '''
+  # Set the highest possible score:
+  MAX_SCORE = 10
+
   def __init__(self, ratingsHash):
     self.ratingsHash = ratingsHash
       # ratingsHash will be a hash table with
@@ -20,7 +23,12 @@ class CrimeScore:
     if category not in self.ratingsHash:
       return 0
     else:
-      return int(self.ratingsHash[category])
+      score = int(self.ratingsHash[category])
+      # Don't allow values higher than the max score!
+      if score > self.MAX_SCORE:
+        score = self.MAX_SCORE
+
+    return score
 
   def getTotalCrimesInDatabase(self):
     '''Returns the total number of crimes (for all categories)'''
@@ -36,7 +44,7 @@ class CrimeScore:
         the category ratings by their user-given scores to obtain
         a 'weighted' numerator. This number is normalized
         by dividing by the total number of crimes in the
-        dataset multiplied by the highest possible amount of points (10)
+        dataset multiplied by the highest possible amount of points
         to make the CrimeScore between 1 and 100.
 
         (for more info, see the methodology section of our README.html)
@@ -57,7 +65,7 @@ class CrimeScore:
 
       numerator += weightedCategoryScore
 
-    quotient = float(numerator)/(totalCrimes * 10)
+    quotient = float(numerator)/(totalCrimes * self.MAX_SCORE)
 
     # Multiply by 100 and round to remove the decimal:
     return round(quotient*100)
