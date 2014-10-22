@@ -24,7 +24,6 @@ class CrimeDataFetcher:
     def _getConnection(self):
         return psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
 
-    #Deprecated. Execute cursor queries using cursor.execute(query, (formatStrParam, ))
     def cleanInput(self, str):
         ''' Removes any control characters that out HTML might be screwed up by
         '''
@@ -41,6 +40,98 @@ class CrimeDataFetcher:
                 rowData.append(cell)
             table.append(rowData)
         return table
+
+    #ACCESSING DATA by Many Parameters
+    def getCrimesForSearch(self, searchParams):
+    	'''
+    		Returns a table of crimes for a given, complex search
+    		The search is constructed from a python dictionary of search keys
+    		and search values (for example 'resolution':'None'). Because of the way
+    		parameters are passed in as a dictionary, that makes every search narrower
+    		optional.
+
+    		Search Keys & Expected Types:
+    			- 'search'		: String (will be bluntly searched against the table)
+    			- 'district'	: String
+    			- 'category'	: String
+    			- 'day'			: String
+    			- 'resolution'	: String
+    	'''
+        connection = self._getConnection()
+        if connection is not None:
+        	cursor = connection.cursor()
+
+        	#craft the perfect query
+        	query = 'SELECT * FROM crimes'
+        	queryHasWhere = False
+
+        	#for each possible parameter, check where it's present,
+        	#and if it is, append an extra condition to the query
+        	if searchParams['search'] is not None and searchParams['search'] != '':
+        		search = self.cleanInput(searchParams['search'])
+        		if queryHasWhere:
+        			query += ' AND'
+        		else:
+        			query += ' WHERE'
+        			queryHasWhere = True
+        		#narrow with search
+        		longOr = " (district ILIKE '%[search]%' OR description ILIKE '%[search]%' OR category ILIKE '%[search]%' OR resolution ILIKE '%[search]%' OR dayofweek ILIKE '[search]%')"
+        		query += longOr.replace("[search]",search)
+
+        	if searchParams['district'] is not None and searchParams['district'] != '-':
+        		district = self.cleanInput(searchParams['district'])
+        		if queryHasWhere:
+        			query += ' AND'
+        		else:
+        			query += ' WHERE'
+        			queryHasWhere = True
+        		toQ = " district ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',district)
+
+        	if searchParams['category'] is not None and searchParams['category'] != '-':
+        		category = self.cleanInput(searchParams['category'])
+        		if queryHasWhere:
+        			query += ' AND'
+        		else:
+        			query += ' WHERE'
+        			queryHasWhere = True
+        		toQ = " category ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',category)
+
+        	if searchParams['resolution'] is not None and searchParams['resolution'] != '-':
+        		resolution = self.cleanInput(searchParams['resolution'])
+        		if queryHasWhere:
+        			query += ' AND'
+        		else:
+        			query += ' WHERE'
+        			queryHasWhere = True
+        		if resolution == '*resolved*':
+        			query += " (resolution NOT ILIKE 'none' AND resolution NOT ILIKE 'unfound')"
+        		else:
+        			toQ = " resolution ILIKE '%[s]%'"
+        			query += toQ.replace('[s]',resolution)
+        	if searchParams['day'] is not None and searchParams['day'] != '-':
+        		day = self.cleanInput(searchParams['day'])
+        		if queryHasWhere:
+        			query += ' AND'
+        		else:
+        			query += ' WHERE'
+        			queryHasWhere = True
+        		toQ = " dayofweek ILIKE '%[s]%'"
+        		query += toQ.replace('[s]',day)
+
+        	query += ' ORDER BY crime_id DESC'
+        	print "query : %s" % query
+        	cursor.execute(query)
+
+        	#construct 2d array
+        	table = self.createTableFromCursor(cursor)
+        	connection.close()
+        	return table
+
+        #else (on no connection)
+        return [[]]
+
 
     #ACCESSING DATA
     def getAllCrimesFromDistrict(self, districtString):
@@ -59,7 +150,7 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             return table
 
-        #else
+        #else (on no connection)
         return [[]]
 
     def getNumberOfCrimesInCategory(self, category):
