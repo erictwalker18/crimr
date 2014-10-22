@@ -107,25 +107,25 @@ def getFormHTML():
 
   tableEntryIndex = 0
     # tableEntryIndex is used for dividing the table up into columns.
-  outputString+= "<table style='width:100%'><tr align='center'>"
+  outputString+= '<table style="width:100%"><tr align="center">'
   for category in categories:
     if tableEntryIndex % 3 == 0:
       # After each third entry, end the row and start a new one:
-      outputString += "</tr><tr align='center'>"
+      outputString += '</tr><tr align="center">'
 
     # Add the forms:
-    outputString += "<td>"
-    outputString += "<p>%s: </p>" % category
+    outputString += '<td>'
+    outputString += '<p>%s: </p>' % category
     outputString += '<select name="%s" id=%s>' % (category, category)
     for num in range(0,CrimeScore.MAX_SCORE + 1):
       outputString+= '<option value="%s">%i</option>' % (str(num), num)
     outputString += '</select>'
-    outputString += "</td>"
+    outputString += '</td>'
 
     tableEntryIndex += 1
 
-  outputString += "</tr>" # Close off the last table row.
-  outputString += "</table>"
+  outputString += '</tr>' # Close off the last table row.
+  outputString += '</table>'
 
   outputString+= '<p><input type="submit" value="Calculate CrimeScore" /></p>'
   outputString += '</form>'
