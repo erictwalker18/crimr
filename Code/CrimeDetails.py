@@ -86,7 +86,8 @@ class CrimeDetails:
                 outputTable = dataFetcher.getCrimeFromID(crimeID)
                 headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
                 outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
-                outputString+='''<script
+                outputString+='''
+                    <script
                     src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
                     </script>
 
