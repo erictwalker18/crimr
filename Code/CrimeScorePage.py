@@ -42,7 +42,9 @@ def getRatingsHashFromForm():
           parameters[category] = int(form[category].value)
           # ^ By design of the form, these results will be strings
           # of numbers. So take int() of these strings.
-          # Just in case int() raises an error, though:
+
+        # Just in case int() raises an error, though (like if the user
+        # tries to sneak a string into the URL):
         except Exception, e:
           parameters[category] = 0
 
