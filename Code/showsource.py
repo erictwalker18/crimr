@@ -11,7 +11,7 @@
 '''
 	used by CRIMR
 	
-	showsource.py (phase_2)
+	showsource.py (phase_3)
 '''
 
 import cgi
@@ -38,7 +38,8 @@ if __name__ == '__main__':
         'webapp.py',
 	'CrimeDataFetcher.py',
 	'CrimrHTMLBuilder.py',
-        'RandomCrimePage.py'
+        'RandomCrimePage.py',
+        'CrimeDetails.py'
     )
 
     # Really. Don't trust the user.
