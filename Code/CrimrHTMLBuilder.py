@@ -36,7 +36,12 @@ class CrimrHTMLBuilder:
 			setting param title as the title
 		'''
 
-		template = '''<!DOCTYPE HTML> <html> <head><title>[[TITLE]]</title></head>'''
+		template = '''<!DOCTYPE HTML>
+        <html>
+        <head>
+        <link rel="stylesheet" type="text/css" href="/cs257/earleyg/webapp3/style.css" />
+        <title>[[TITLE]]</title>
+        </head>'''
 		html = template.replace('[[TITLE]]',title)
 		return html
 

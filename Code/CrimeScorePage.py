@@ -68,6 +68,7 @@ def getPageAsHTML():
   '''
 
   page = CrimrHTMLBuilder.getTopOfHTML("CrimeScore")
+
   page += '''
       <body>
       <h1>CrimeScore</h1>
@@ -116,7 +117,7 @@ def getFormHTML():
     outputString += "<td>"
     outputString += "<p>%s: </p>" % category
     outputString += '<select name="%s" id=%s>' % (category, category)
-    for num in range(0,11):
+    for num in range(0,CrimeScore.MAX_SCORE + 1):
       outputString+= '<option value="%s">%i</option>' % (str(num), num)
     outputString += '</select>'
     outputString += "</td>"
@@ -166,11 +167,14 @@ def getCrimeScoreHTMLReadOut():
     score = getCrimeScore()
     commentary = getCrimeScoreCommentary()
 
-    outputString = "<h2>Your Personalized CrimeScore:</h2>"
+    outputString = "<div id='crimeScore'>"
+    outputString += "<h2>Your Personalized CrimeScore:</h2>"
     outputString += "<h1>%i</h1>" % score
     outputString += "<h6>(scores range from 0 to 100)</h6>"
     outputString += "<p>%s</p>" % commentary
     outputString += "<hr>"
+    outputString += "</div>"
+
 
     return outputString
 
