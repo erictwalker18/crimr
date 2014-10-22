@@ -36,8 +36,9 @@ if __name__ == '__main__':
     allowedFiles = (
         'showsource.py',
         'webapp.py',
-		'CrimeDataFetcher.py',
-		'CrimrHTMLBuilder.py'
+	'CrimeDataFetcher.py',
+	'CrimrHTMLBuilder.py',
+        'RandomCrimePage.py'
     )
 
     # Really. Don't trust the user.

@@ -126,4 +126,3 @@ class CrimrHTMLBuilder:
 		'''
 		
 		return '''</body></html>'''
-

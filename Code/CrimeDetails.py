@@ -3,7 +3,7 @@
 '''
     CRIMR
 
-    CrimrRandomCrime.py (phase_3)
+    CrimeDetails.py (phase_3)
 
     Eric Walker,
     Charlie Imhoff,
@@ -57,7 +57,7 @@ def getPageAsHTML(crimeID):
             <p> Click the button to get a random Crime!</p>
 
             <!-- form -->
-            <form action="CrimrRandomPage.py" method="get">
+            <form action="CrimeDetails.py" method="get">
                 <p><input type="submit" value="Get Random Crime!" /></p>
             </form>
 
@@ -72,7 +72,6 @@ def getPageAsHTML(crimeID):
 
             <!-- links -->
             <h4>Source Code</h4>
-            <p> <a href="showsource.py?source=CrimrRandomPage.py">CrimrRandomPage.py</a> </p>
             <p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a> </p>
             <p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
             <p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
@@ -94,6 +93,25 @@ def getRandomAsHTML(crimeID):
             outputTable = dataFetcher.getCrimeFromID(crimeID)
             headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
             outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
+            outputString+='''<script
+                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+                </script>
+
+                <script>
+                function initialize() {
+                var mapProp = {
+                    center:new google.maps.LatLng(%s,%s),
+                    zoom:19,
+                    mapTypeId:google.maps.MapTypeId.ROADMAP };
+                    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                }
+
+                google.maps.event.addDomListener(window, 'load', initialize);
+                </script>
+                <div id="googleMap" style="width:500px;height:380px;"></div>
+
+                
+                ''' %(outputTable[0][8], outputTable[0][7])
         except Exception, e:
             outputString +=  'Cursor error: %s' % e
     except Exception, e:

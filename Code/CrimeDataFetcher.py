@@ -93,7 +93,7 @@ class CrimeDataFetcher:
             #Execute the query in a safe manner, taking advantage of .execute()'s format
             #str compatibility & helpful injection attack detection. 
             query = 'SELECT * FROM crimes ORDER BY random() limit 1'
-            cursor.execute(query)
+            cursor.execute(query, (idNum,))
             
             #Construct a 2D array of all the information from the query
             table = self.createTableFromCursor(cursor)
