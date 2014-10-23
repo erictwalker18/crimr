@@ -94,11 +94,13 @@ class CrimrHTMLBuilder:
                 html += '<tr>'
                 html += '<th>%s</th>' % header
                 html+= '<td>%s</td>' % data[0][i]
+                '''
                 for row in data:
                     for cell in row:
                         html += '<td>%s</td>' % cell
-                        html += '</tr>'
-                        i += 1
+                '''
+                html += '</tr>'
+                i += 1
 
         elif headings is not None:
             for header in headings:
