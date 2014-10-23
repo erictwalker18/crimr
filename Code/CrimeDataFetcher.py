@@ -131,8 +131,8 @@ class CrimeDataFetcher:
         	connection.close()
         	return table
 
-        #else (on no connection)
-        return [[]]
+        else:
+            return [[]]
 
 
     #ACCESSING DATA
@@ -152,8 +152,8 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             return table
 
-        #else (on no connection)
-        return [[]]
+        else:
+            return [[]]
 
     def getNumberOfCrimesInCategory(self, category):
         ''' Returns the quantity of crimes under a category'''
@@ -166,7 +166,8 @@ class CrimeDataFetcher:
             crimesInCategory = cursor.fetchall()
             connection.close()
             return len(crimesInCategory)
-        return 0
+        else:
+            return 0
 
     def getListOfCategories(self):
         '''Returns list of unique categories in the dataset'''
@@ -185,9 +186,6 @@ class CrimeDataFetcher:
                 # (Cleaning up the list)
 
         return categoryList
-
-        else:
-            return [[]]
 
     def getCrimeFromID(self, idNum):
         ''' Returns a table containing the data from one crime, identified by the
@@ -210,15 +208,15 @@ class CrimeDataFetcher:
             return [[]]
 
     def getRandomCrimeID(self):
-        ''' Returns the ID of a random Crime'''
+        ''' Returns the ID of a random unsolved Crime'''
         connection = self._getConnection()
         if connection is not None:
             cursor = connection.cursor()
 
             #Execute the query in a safe manner, taking advantage of .execute()'s format
             #str compatibility & helpful injection attack detection.
-            query = 'SELECT * FROM crimes ORDER BY random() limit 1'
-            cursor.execute(query, (idNum,))
+            query = 'SELECT * FROM crimes WHERE resolution='None' ORDER BY random() limit 1'
+            cursor.execute(query)
 
             #Construct a 2D array of all the information from the query
             table = self.createTableFromCursor(cursor)
@@ -228,28 +226,3 @@ class CrimeDataFetcher:
 
         else:
             return [[]]
-
-    def getAllCrimesByCategory(self, catString):
-        ''' Returns a table of the crimes of all the crimes in a category'''
-        #Implement later
-        return []
-
-    def getAllCrimesByDate(self, date):
-        ''' Returns a table of the crimes of all the crimes on a date'''
-        #Implement later
-        return []
-
-    def getCrimesContainingDescriptionText(self, desc):
-        ''' Returns a table of the crimes related to the inputed description'''
-        #Implement later
-        return []
-
-    def getAllCrimesByDayOfWeek(self, day):
-        ''' Returns a table of the crimes which occurred on the specified day of the week'''
-        #Implement later
-        return []
-
-    def getRandomUnresolvedCrime(self):
-        '''Returns a table row of a random crime where resolution="None" '''
-        #Implement later
-        return []

@@ -40,7 +40,7 @@ class CrimrHTMLBuilder:
 		template = '''<!DOCTYPE HTML>
         <html>
         <head>
-        <link rel="stylesheet" type="text/css" href="/cs257/earleyg/webapp3/style.css" />
+        <link rel="stylesheet" type="text/css" href="/cs257/imhoffc/webapp3/style.css" />
         <title>[[TITLE]]</title>
         </head>'''
 		html = template.replace('[[TITLE]]',title)
@@ -118,7 +118,9 @@ class CrimrHTMLBuilder:
 		'''
 
 		template = '''<body>
-		<img="Logo.png" width="400" height="300" id="picture">
+		<a href="index.py">
+        <img src="Logo.png" alt="CRIMR" width="400" height="300">
+        </a>
 		<h2>[[SUBPAGE_HEADER]]</h2>
 		'''
 		html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
@@ -128,5 +130,8 @@ class CrimrHTMLBuilder:
 	def getClosingHTML():
 		'''
 			Returns an HTML string which closes the Body & HTML tags
+            as well as inserts the link to the readme.html page
 		'''
-		return '''</body></html>'''
+		return '''<p>CRIMR : imhoffc, earleyg, walkere</p>
+        <p><a href="readme.html">readme</a></p>
+        </body></html>'''
