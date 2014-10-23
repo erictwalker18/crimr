@@ -25,7 +25,7 @@ from CrimrHTMLBuilder import CrimrHTMLBuilder
 
 #UTILITY METHODS
 def cleanInput(str):
-    ''' Removes any control characters that our HTML might be screwed up by
+    ''' Removes any control characters that our HTML might be screwed up by.
     '''
     charsToRemove = ';,\\/:\'"<>@'
     for ch in charsToRemove:
