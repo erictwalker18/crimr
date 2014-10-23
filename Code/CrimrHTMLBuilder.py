@@ -10,6 +10,7 @@
 '''
 import cgitb
 cgitb.enable()
+import re   #regex checking module
 from CrimeDataFetcher import CrimeDataFetcher
 
 '''
@@ -52,6 +53,7 @@ class CrimrHTMLBuilder:
     def getHTMLTable(headings, data):
         '''
             Returns an HTML string which creates, fills and closes a Table tag.
+            Automagically detects crime_ids and converts them to CrimeDetail page links
 
             This parameter setup is designed to interface
             simply with CrimeDataFetcher.py
@@ -74,7 +76,15 @@ class CrimrHTMLBuilder:
             for row in data:
                 html += '<tr>'
                 for cell in row:
-                    html += '<td>%s</td>' % cell
+                    cellInnerHtml = cell
+                    #matches crime ids but not x/y coordinants
+                    crimeIdRegexPattern = re.compile("^\d+$")
+                    matchObject = crimeIdRegexPattern.match(str(cell))
+
+                    if matchObject is not None: #if the regex matched
+                        #replace crime_id with a link for more details
+                        cellInnerHtml = '<a href="CrimeDetails.py?search=%s">%s</a>' % (cell,cell)
+                    html += '<td>%s</td>' % cellInnerHtml
                 html += '</tr>'
         html += '</table>'
         return html
@@ -145,6 +155,7 @@ class CrimrHTMLBuilder:
             Returns an HTML string which closes the Body & HTML tags
             as well as inserts the link to the readme.html page
         '''
-        return '''<p>CRIMR : imhoffc, earleyg, walkere</p>
-        <p><a href="readme.html">readme</a></p>
+        return '''<h4>Information</h4>
+        <p><i>CRIMR : imhoffc, earleyg, walkere</i></p>
+        <p><a href="readme.html">Project ReadMe</a></p>
         </body></html>'''
