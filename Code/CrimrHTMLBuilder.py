@@ -57,7 +57,10 @@ class CrimrHTMLBuilder:
             params:
                 - headings : String[]? : Gets formatted into the list as a header row
                 - data : String[][] : Gets formatted into the html as a table
+                if data is at all empty, an HTML error message is returned
         '''
+        if len(data) == 0:
+            return '<p>No Results</p>'
         html = '<table border="1">'
         if headings is not None:
             #fill in a header row
@@ -120,6 +123,18 @@ class CrimrHTMLBuilder:
         '''
         html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
         return html
+
+    @staticmethod
+    def getNavigationLinks():
+        '''
+            Returns an HTML string which links the user to the secondary
+            features of CRIMR
+        '''
+        return '''
+        <h3>Features</h3>
+        <p><a href="CrimeScorePage.py">CrimeScore</a> get a personalized crime score</p>
+        <p><a href="RandomCrimePage.py">Vigilante Button</a> get a random, unsolved crime</p>
+        '''
 
     @staticmethod
     def getClosingHTML():
