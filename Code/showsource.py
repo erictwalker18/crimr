@@ -42,7 +42,7 @@ if __name__ == '__main__':
         'RandomCrimePage.py',
         'CrimeDetails.py',
         'CrimrHTMLBuilder.py',
-        'stle.css',
+        'style.css',
         'index.py'
     )
 
