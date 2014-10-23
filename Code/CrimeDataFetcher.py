@@ -108,7 +108,7 @@ class CrimeDataFetcher:
                     query += ' WHERE'
                     queryHasWhere = True
                 if resolution == '*resolved*':
-                    query += " (resolution NOT ILIKE 'none' AND resolution NOT ILIKE 'unfound')"
+                    query += " (resolution NOT ILIKE 'none' AND resolution NOT ILIKE 'unfounded')"
                 else:
                     toQ = " resolution ILIKE '%[s]%'"
                     query += toQ.replace('[s]',resolution)
@@ -217,7 +217,7 @@ class CrimeDataFetcher:
 
             #Execute the query in a safe manner, taking advantage of .execute()'s format
             #str compatibility & helpful injection attack detection.
-            query = "SELECT * FROM crimes WHERE (resolution ILIKE 'none' OR resolution ILIKE 'unfound') ORDER BY random() limit 1"
+            query = "SELECT * FROM crimes WHERE (resolution ILIKE 'none' OR resolution ILIKE 'unfounded') ORDER BY random() limit 1"
             cursor.execute(query)
 
             #Construct a 2D array of all the information from the query
