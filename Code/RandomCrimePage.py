@@ -11,7 +11,7 @@
 '''
 
 '''
-    This file returns the html code for a page that shows the details of a random crime.
+DEPRECATED
 '''
 
 import cgi
