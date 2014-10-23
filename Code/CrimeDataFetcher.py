@@ -61,8 +61,8 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             return table
             
-        #else
-        return [[]]
+        else:
+            return [[]]
 
     def getCrimeFromID(self, idNum):
         ''' Returns a table containing the data from one crime, identified by the
@@ -81,8 +81,8 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             return table
             
-        #else
-        return [[]]
+        else:
+            return [[]]
 
     def getRandomCrimeID(self):
         ''' Returns the ID of a random Crime'''
@@ -100,9 +100,9 @@ class CrimeDataFetcher:
             connection.close() #we're done with the connection
             #Extract the one number we need from the table
             return table[0][0]
-            
-        #else
-        return 0
+
+        else:    
+            return [[]]
 
     def getAllCrimesByCategory(self, catString):
         ''' Returns a table of the crimes of all the crimes in a category'''
