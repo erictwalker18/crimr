@@ -209,7 +209,7 @@ class CrimeDataFetcher:
         else:
             return [[]]
 
-    def getRandomCrimeID(self):
+    def getRandomUnsolvedCrimeID(self):
         ''' Returns the ID of a random unsolved Crime'''
         connection = self._getConnection()
         if connection is not None:

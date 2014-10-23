@@ -10,6 +10,8 @@
 '''
 import cgitb
 cgitb.enable()
+from CrimeDataFetcher import CrimeDataFetcher
+
 '''
     CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
     blocks of HTML via a cleaner interface than directly printing in Phython
@@ -130,11 +132,12 @@ class CrimrHTMLBuilder:
             Returns an HTML string which links the user to the secondary
             features of CRIMR
         '''
+        dataFetcher = CrimeDataFetcher()
         return '''
         <h3>Features</h3>
         <p><a href="CrimeScorePage.py">CrimeScore</a> get a personalized crime score</p>
-        <p><a href="RandomCrimePage.py">Vigilante Button</a> get a random, unsolved crime</p>
-        '''
+        <p><a href="CrimeDetails.py?search=%s">Vigilante Button</a> get a random, unsolved crime</p>
+        ''' % dataFetcher.getRandomUnsolvedCrimeID()
 
     @staticmethod
     def getClosingHTML():
