@@ -115,7 +115,7 @@ def getFormAsHTML(parameters):
 				by Category:
 				<select name="category" id="category">
 					<option value="-">--</option>
-					<option value="murder">Murder</option>
+					<option value="homocide">Homocide</option>
 					<option value="theft">Theft</option>
 					<option value="assault">Assault</option>
 					<option value="vandalism">Vandalism</option>
@@ -139,7 +139,7 @@ def getFormAsHTML(parameters):
 				<select name="resolution" id="resolution">
 					<option value="-">--</option>
 					<option value="*resolved*">Resolved</option> #special case
-					<option value="none">Unresolved</option>
+					<option value="*unresolved*">Unresolved</option>
 					<option value="arrest">Arrest</option>
 					<option value="book">Booking</option>
 					<option value="cite">Citing</option>

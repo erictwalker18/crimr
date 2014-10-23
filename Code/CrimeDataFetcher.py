@@ -109,6 +109,8 @@ class CrimeDataFetcher:
                     queryHasWhere = True
                 if resolution == '*resolved*':
                     query += " (resolution NOT ILIKE 'none' AND resolution NOT ILIKE 'unfounded')"
+                elif resolution == '*unresolved*':
+                    query += " (resolution ILIKE 'none' OR resolution ILIKE 'unfounded')"
                 else:
                     toQ = " resolution ILIKE '%[s]%'"
                     query += toQ.replace('[s]',resolution)
