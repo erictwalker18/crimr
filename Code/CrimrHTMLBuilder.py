@@ -119,7 +119,7 @@ class CrimrHTMLBuilder:
         '''
 
         template = '''<body>
-        <img src="/cs257/earleyg/webapp3/Logo.png" width="200" height="150" id="picture">
+        <a href="/cs257/earleyg/webapp3/webapp.py"><img src="/cs257/earleyg/webapp3/Logo.png" width="164" height="59" id="picture"></a>
         <h2>[[SUBPAGE_HEADER]]</h2>
         '''
         html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)

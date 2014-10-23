@@ -1,7 +1,9 @@
 /*
-CSS for my CRIMR web application.
+CSS for CRIMR web application.
 Graham Earley, Eric Walker, Charlie Imhoff
 CRIMR Studios, 2014
+
+Inspired by Jeff's CSS, which was inspired by Jadrian's CSS.
 
 */
 
@@ -32,6 +34,13 @@ h1 {
   line-height: 1em;
 }
 
+#crimescore {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 200%;
+  padding: 5px;
+}
+
 h2 {
   font-family: 'Play', sans;
   font-weight: normal;
@@ -40,6 +49,11 @@ h2 {
   padding: 10px 0px 0px 0px;
   font-size: 150%;
   line-height: 1em;
+}
+
+#crimescore-head {
+  color: #34495e;
+  font-size: 160%;
 }
 
 h3 {
@@ -52,14 +66,18 @@ h3 {
   line-height: 1em;
 }
 
+table, th, td {
+   border: 1px solid #7f8c8d;
+   border-collapse: collapse;
+}
+
 a:visited {
-  color: #0B86B5;
-  /* color: #009E8E; */
+  color: #2980b9;
   text-decoration: underline;
 }
 
 a:hover {
-  background-color: #D8D8D8;
-  text-decoration: none;
+  background-color: #ecf0f1;
+  text-decoration: underline;
   cursor: pointer;
 }

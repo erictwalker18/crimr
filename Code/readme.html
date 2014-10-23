@@ -59,18 +59,25 @@
         <li><a href="https://data.sfgov.org/Public-Safety/Map-Crime-Incidents-Previous-Three-Months/gxxq-x39z">The dataset came from this page</a>, provided by the San Francisco government.</li>
         <li>The licensing information is given in the 'About' section of the dataset's homepage: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Universal License</a></li>
         <li> <a href="/cs257/earleyg/webapp3/tables.sql">Our <b>CREATE TABLE</b> statements</a></li>
-        </ul>
+      </ul>
+
+    <h2>Source code files:</h2>
+      <ul>
+        <li>ADD HERE</li>
+      </ul>
 
     <hr>
 
     <h2>CrimeScore methodology</h2>
     <p> Here's how the CrimeScore is calculated:
         Multiply the amount of crimes in each category by the user's
-        rating for that category (0-10). Add all these up. Now, divide
+        rating for that category (0-10). Add all these up. Now, in order to make this decimal
+        between 0 and 1 (for understandability) divide
         by the highest possible value for the numerator (which is the case
-        where the user rates all categories at 10). So, the denominator is
-        the quantity of each crime, multiplied by ten. This lets the quotient give a result between
-        0 and 1. Now multiply this decimal by 100 and round.
+        where the user rates all categories at 10). Thus, the denominator is
+        the quantity of each crime, multiplied by ten. The numerator is the quantity of each crime,
+        multiplied by their respective ratings (0-10). This lets the quotient give a result between
+        0 and 1. Now multiply this decimal by 100 and round for the final result.
     </p>
     <p><i>Disclaimer: CrimeScore is not meant to be used for real gauging of crime scariness in the area.</i></p>
 
