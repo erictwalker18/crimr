@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>CRIMR Readme</title>
+    <link rel="stylesheet" type="text/css" href="/cs257/earleyg/webapp3/style.css" />
 </head>
 
 <body>
@@ -9,6 +10,23 @@
     <h1>CRIMR Description</h1>
 
       <p>
+        CRIMR is a webapp that allows you to browse recent crime activity in the
+        San Francisco area. You can do a broad search of crime (through districts, descriptions,
+        categories, resolution status of the crime, and even the day of week), or you can
+        focus your search in by specifying a certain district, category, day of week, and
+        or resolution status, and then searching from there.
+      </p>
+      <p> <b>Feature List</b>
+        <ul>
+          <li>Broad search of crimes (looking through the various attributes)</li>
+          <li>Narrowed down search of crimes (looking through crimes with certain attributes
+            set. For example, searching through all unresolved crimes on Wednesdays)</li>
+          <li>The CrimeScore Index: rank your fear of all the crime categories and receive
+          a personalized 'CrimeScore' letting you know how scared you should be of the
+          current crime level.</li>
+          <li>Get a random crime (and see it on a map). Practice vigilante justice at your own
+          discretion.</li>
+        </ul>
       </p>
 
 
@@ -25,21 +43,26 @@
 
     <h2>Citations</h2>
 
-      <ul></ul>
+      <ul>
+        <li><a href="https://data.sfgov.org/Public-Safety/Map-Crime-Incidents-Previous-Three-Months/gxxq-x39z">The dataset came from this page</a>, provided by the San Francisco government.</li>
+        <li> The licensing information is given in the 'About' section of the dataset's homepage: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Universal License</a></li>
+        </ul>
 
     <h2>CrimeScore methodology</h2>
     <p> Here's how the CrimeScore is calculated:
         Multiply the amount of crimes in each category by the user's
         rating for that category (0-10). Add all these up. Now, divide
         by the highest possible value for the numerator (which is the case
-        where the user rates all categories at 10). Now multiply this number
-        by 100.
+        where the user rates all categories at 10). So, the denominator is
+        the quantity of each crime, multiplied by ten. This lets the quotient give a result between
+        0 and 1. Now multiply this decimal by 100 and round.
     </p>
+    <p><i>Disclaimer: CrimeScore is not meant to be used for real gauging of crime scariness in the area.</i></p>
 
 
     <hr>
 
-    <a href="">Our CREATE TABLE statements</a>
+    <a href="/cs257/earleyg/webapp3/tables.sql">Our CREATE TABLE statements</a>
 
 </body>
 </html>
