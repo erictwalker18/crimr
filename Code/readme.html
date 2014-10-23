@@ -8,6 +8,7 @@
 <body>
 
     <h1>CRIMR Description</h1>
+    <i>A product of CRIMR Studios: Eric Walker, Graham Earley, and Charlie Imhoff</i>
 
       <p>
         CRIMR is a webapp that allows you to browse recent crime activity in the
@@ -16,7 +17,8 @@
         focus your search in by specifying a certain district, category, day of week, and
         or resolution status, and then searching from there.
       </p>
-      <p> <b>Feature List</b>
+      <h3>Feature List</h3>
+      <p>
         <ul>
           <li>Broad search of crimes (looking through the various attributes)</li>
           <li>Narrowed down search of crimes (looking through crimes with certain attributes
@@ -29,24 +31,37 @@
         </ul>
       </p>
 
-
     <h1>Changes Since Conception</h1>
 
-      <p>
-      </p>
+      <ul>
+        <li>A main change from our initial conception (seen especially in our mockups) is
+        the visual design. Our HTML forms are not as nicely formatted (we didn't have much
+        time to play with prettier JQuery forms), for one thing. Also, with the relatively short timeframe
+        of the project, we didn't focus too much on CSS, although that would have helped our site
+        be more true to the mockups.</li>
+        <li>Some of our features were lumped into the search. For example, <i>'Find out which days
+          of the week are most dangerous'</i> is now simply up to the user to figure out by using our
+          search (search for Wednesday and see how much crime there is) rather than there being
+          a set page that shows you what the crime activity is like for each day.</li>
+        <li></li>
+        <li></li>
+      </ul>
 
 
     <h2>Things That Would Have Been Useful</h2>
 
-      <ul></ul>
+      <ul>CSS knowledge / more time to experiment with CSS</ul>
 
 
-    <h2>Citations</h2>
+    <h2>Citations, etc.</h2>
 
       <ul>
         <li><a href="https://data.sfgov.org/Public-Safety/Map-Crime-Incidents-Previous-Three-Months/gxxq-x39z">The dataset came from this page</a>, provided by the San Francisco government.</li>
-        <li> The licensing information is given in the 'About' section of the dataset's homepage: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Universal License</a></li>
+        <li>The licensing information is given in the 'About' section of the dataset's homepage: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Universal License</a></li>
+        <li> <a href="/cs257/earleyg/webapp3/tables.sql">Our <b>CREATE TABLE</b> statements</a></li>
         </ul>
+
+    <hr>
 
     <h2>CrimeScore methodology</h2>
     <p> Here's how the CrimeScore is calculated:
@@ -58,11 +73,6 @@
         0 and 1. Now multiply this decimal by 100 and round.
     </p>
     <p><i>Disclaimer: CrimeScore is not meant to be used for real gauging of crime scariness in the area.</i></p>
-
-
-    <hr>
-
-    <a href="/cs257/earleyg/webapp3/tables.sql">Our CREATE TABLE statements</a>
 
 </body>
 </html>
