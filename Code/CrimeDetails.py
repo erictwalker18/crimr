@@ -38,11 +38,27 @@ def getParametersFromFormOrDefaults():
         All it does is check if the crimeID is valid, if not, it selects a random Crime.
     '''
     dataFetcher = CrimeDataFetcher()
-    parameter = CrimeDataFetcher.getRandomUnsolvedCrimeID()
-    
+    #default is a random unsolved crime
+    parameter = dataFetcher.getRandomUnsolvedCrimeID()
+    try:
+        form = cgi.FieldStorage()
+        if 'search' in form:
+            tempID = cleanInput(form['search'].value)
+            #check if the ID is valid!
+            if dataFetcher.getCrimeFromID(tempID):
+                parameter = tempID
+    except Exception, e:
+        pass
+    return parameter
 
-@staticmethod
-def getPageAsHTML(crimeID, otherText):
+def main():
+    '''Gets the parameters from cgi input or a random PSQL algorithm and prints the page
+    '''
+    parameter = getParametersFromFormOrDefaults()
+    print CrimrHTMLBuilder.getStartingSequence(),
+    print getPageAsHTML(parameter)
+
+def getPageAsHTML(crimeID):
     ''' Constructs and returns an HTML formatted string that can be printed, and thus
         fill the webpage with content!
 
@@ -56,10 +72,6 @@ def getPageAsHTML(crimeID, otherText):
     page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
     page += CrimrHTMLBuilder.getTopOfBody('Crime Details')
     page += '''
-
-            <!-- other stuff pops in here -->
-            %s
-
             <!-- results get popped in here -->
             <div id="info">
             %s
@@ -71,18 +83,16 @@ def getPageAsHTML(crimeID, otherText):
 
             <!-- links -->
             <h4>Source Code</h4>
-            <p> <a href="showsource.py?source=RandomCrimePage.py">RandomCrimePage.py</a> </p>
             <p> <a href="showsource.py?source=CrimeDetails.py">CrimeDetails.py</a> </p>
             <p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a> </p>
             <p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
             <p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
             
-        ''' % (otherText, CrimeDetails.getDataAsHTML(crimeID))
+        ''' % (getDataAsHTML(crimeID))
     page += CrimrHTMLBuilder.getClosingHTML()
 
     return page
 
-@staticmethod
 def getDataAsHTML(crimeID):
     ''' Returns the search results form the PSQL database, formatted into an HTML String
         Will be placed directly into the output String of 'getPageAsHTML()'
@@ -97,6 +107,7 @@ def getDataAsHTML(crimeID):
             outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
             #Google map embed:
             outputString+='''
+                <!-- Google map script and div that it pops into -->
                 <script
                 src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
                 </script>
@@ -123,3 +134,5 @@ def getDataAsHTML(crimeID):
 
     return outputString
 
+if __name__ == '__main__':
+    main()

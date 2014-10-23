@@ -209,7 +209,7 @@ class CrimeDataFetcher:
         else:
             return [[]]
 
-    def getRandomCrimeID(self):
+    def getRandomUnsolvedCrimeID(self):
         ''' Returns the ID of a random Crime'''
         connection = self._getConnection()
         if connection is not None:
@@ -217,7 +217,7 @@ class CrimeDataFetcher:
 
             #Execute the query in a safe manner, taking advantage of .execute()'s format
             #str compatibility & helpful injection attack detection.
-            query = 'SELECT * FROM crimes ORDER BY random() limit 1'
+            query = '''SELECT * FROM crimes WHERE resolution IN ('NONE', 'UNFOUNDED') ORDER BY random() limit 1'''
             cursor.execute(query)
 
             #Construct a 2D array of all the information from the query
