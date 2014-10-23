@@ -3,7 +3,8 @@
 '''
 	CRIMR
 
-	webapp.py (phase_3)
+	index.py (phase_3)
+		formerly webapp.py
 
 	Charlie Imhoff,
 	Graham Earley,
@@ -93,7 +94,7 @@ def getFormAsHTML(parameters):
 	Returns valid HTML as a string which represents the search form
 	Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
-	html = '''<form action="webapp.py" method="get">
+	html = '''<form action="index.py" method="get">
 				<!-- Text Search Box -->
 				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
 				<!-- Narrowing Dropdowns -->
