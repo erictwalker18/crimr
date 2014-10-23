@@ -11,122 +11,121 @@
 import cgitb
 cgitb.enable()
 '''
-	CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
-	blocks of HTML via a cleaner interface than directly printing in Phython
-	main methods.
+    CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
+    blocks of HTML via a cleaner interface than directly printing in Phython
+    main methods.
 
-	Allows us to have the wonders of both a code interface and a template file,
-	without the downsides of managing a bunch of flat .HTML files
+    Allows us to have the wonders of both a code interface and a template file,
+    without the downsides of managing a bunch of flat .HTML files
 '''
 
 class CrimrHTMLBuilder:
 
-	@staticmethod
-	def getStartingSequence():
-		'''
-			Returns the sequence that Python must first print before
-			the print stream is read as HTML
-		'''
-		return '''Content-type: text/html\r\n\r\n'''
+    @staticmethod
+    def getStartingSequence():
+        '''
+            Returns the sequence that Python must first print before
+            the print stream is read as HTML
+        '''
+        return '''Content-type: text/html\r\n\r\n'''
 
-	@staticmethod
-	def getTopOfHTML(title):
-		'''
-			Returns an HTML string which starts the HTML tag
-			and fills in all the header info,
-			setting param title as the title
-		'''
+    @staticmethod
+    def getTopOfHTML(title):
+        '''
+            Returns an HTML string which starts the HTML tag
+            and fills in all the header info,
+            setting param title as the title
+        '''
 
-		template = '''<!DOCTYPE HTML>
+        template = '''<!DOCTYPE HTML>
         <html>
         <head>
         <link rel="stylesheet" type="text/css" href="/cs257/earleyg/webapp3/style.css" />
         <title>[[TITLE]]</title>
         </head>'''
-		html = template.replace('[[TITLE]]',title)
-		return html
-
-	@staticmethod
-	def getHTMLTable(headings, data):
-		'''
-			Returns an HTML string which creates, fills and closes a Table tag.
-
-			This parameter setup is designed to interface
-			simply with CrimeDataFetcher.py
-
-			params:
-				- headings : String[]? : Gets formatted into the list as a header row
-				- data : String[][] : Gets formatted into the html as a table
-		'''
-		html = '<table border="1">'
-		if headings is not None:
-			#fill in a header row
-			html += '<tr>'
-			for header in headings:
-				html += '<th>%s</th>' % header
-			html += '</tr>'
-		if data is not None:
-			for row in data:
-				html += '<tr>'
-				for cell in row:
-					html += '<td>%s</td>' % cell
-				html += '</tr>'
-		html += '</table>'
-		return html
+        html = template.replace('[[TITLE]]',title)
+        return html
 
     @staticmethod
-	def getHTMLVertTable(headings, data):
-                '''
-                        Returns an HTML string that creates, fills, and closes
-                        a vertical Table tag.
+    def getHTMLTable(headings, data):
+        '''
+            Returns an HTML string which creates, fills and closes a Table tag.
 
-                        This parameter setup is designed to interface
-                        with CrimeDataFetcher.py
+            This parameter setup is designed to interface
+            simply with CrimeDataFetcher.py
 
-                        params:
-                                -headings: String[] : Gets formatted into the list as the header column
-                                -data: String[]? : Gets formatted into the html as a table
-                '''
-                html = '<table border="1">'
-		if headings is not None and data is not None:
-                        i=0
-			for header in headings:
-                                html += '<tr>'
-				html += '<th>%s</th>' % header
-				html+= '<td>%s</td>' % data[0][i]
-                                '''
-				for row in data:
-                                        for cell in row:
-                                                html += '<td>%s</td>' % cell '''
-                                html += '</tr>'
-                                i += 1
+            params:
+                - headings : String[]? : Gets formatted into the list as a header row
+                - data : String[][] : Gets formatted into the html as a table
+        '''
+        html = '<table border="1">'
+        if headings is not None:
+            #fill in a header row
+            html += '<tr>'
+            for header in headings:
+                html += '<th>%s</th>' % header
+            html += '</tr>'
+        if data is not None:
+            for row in data:
+                html += '<tr>'
+                for cell in row:
+                    html += '<td>%s</td>' % cell
+                html += '</tr>'
+        html += '</table>'
+        return html
 
-		elif headings is not None:
-                        for header in headings:
-				html += '<th>%s</th>' % header
-			html += '</tr>'
+    @staticmethod
+    def getHTMLVertTable(headings, data):
+        '''
+        Returns an HTML string that creates, fills, and closes
+        a vertical Table tag.
 
-		html += '</table>'
-		return html
+        This parameter setup is designed to interface
+        with CrimeDataFetcher.py
 
-	@staticmethod
-	def getTopOfBody(subpageHeader):
-		'''
-			Returns an HTML string which starts the Body tag
-			and fills in the first two headers (first one is CRIMR,
-			second one is from parameter)
-		'''
+        params:
+                -headings: String[] : Gets formatted into the list as the header column
+                -data: String[]? : Gets formatted into the html as a table
+        '''
+        html = '<table border="1">'
+        if headings is not None and data is not None:
+            i=0
+            for header in headings:
+                html += '<tr>'
+                html += '<th>%s</th>' % header
+                html+= '<td>%s</td>' % data[0][i]
+                for row in data:
+                    for cell in row:
+                        html += '<td>%s</td>' % cell
+                        html += '</tr>'
+                        i += 1
 
-		template = '''<body>
-		<img="Logo.png" width="400" height="300" id="picture">
-		<h2>[[SUBPAGE_HEADER]]</h2>
-		'''
-		html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
-		return html
+        elif headings is not None:
+            for header in headings:
+                html += '<th>%s</th>' % header
+                html += '</tr>'
 
-	@staticmethod
-	def getClosingHTML():
-		'''
-			Returns an HTML string which closes the Body & HTML tags
-		'''
-		return '''</body></html>'''
+        html += '</table>'
+        return html
+
+    @staticmethod
+    def getTopOfBody(subpageHeader):
+        '''
+            Returns an HTML string which starts the Body tag
+            and fills in the first two headers (first one is CRIMR,
+            second one is from parameter)
+        '''
+
+        template = '''<body>
+        <img src="/cs257/earleyg/webapp3/Logo.png" width="200" height="150" id="picture">
+        <h2>[[SUBPAGE_HEADER]]</h2>
+        '''
+        html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
+        return html
+
+    @staticmethod
+    def getClosingHTML():
+        '''
+            Returns an HTML string which closes the Body & HTML tags
+        '''
+        return '''</body></html>'''

@@ -70,11 +70,8 @@ def getPageAsHTML():
   '''
 
   page = CrimrHTMLBuilder.getTopOfHTML("CrimeScore")
-
+  page += CrimrHTMLBuilder.getTopOfBody("CrimeScore")
   page += '''
-      <body>
-      <h1>CrimeScore</h1>
-
       <!-- CrimeScore presentation/readout:-->
       %s
 
