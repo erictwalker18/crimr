@@ -11,10 +11,10 @@
 '''
 
 '''
-	This file was made with the intention of searching the dataset, but upon further work
-	we realized that it was impractical to implement a total search right now.
+	The Homepage for CRIMR.
 
-	Because of this, the user experience currently only searches by District.
+	The bread and butter of our app, search is home here, as well as
+	the primary links to all other CRIMR pages.
 '''
 
 import cgi
@@ -36,9 +36,8 @@ def cleanInput(str):
 def getParametersFromFormOrDefaults():
 	''' This function will always return a py dictionary of the params we care about.
 
-		It works by either filling in and cleaning these params from a CGI form,
-		or if none exists it just goes ahead and defines them as a blank string,
-		instead of nil (or whatever null value Python uses...)
+		If no CGI params are passed in, it still creates this dictionary, ensuring
+		nothing is calling a None variable
     '''
 	parameters = {'search':''}
 	try:
@@ -69,13 +68,7 @@ def main():
 
 def getPageAsHTML(parameters):
 	''' Constructs and returns an HTML formatted string that can be printed, and thus
-		fill the webpage with content!
-
-		I thought about linking this to a 'template.html' flat file, but it made more
-		sense to me (at this instant) that that technique would be pretty poorly coupled
-		as it would require a format string against a file that we would read without
-		clear expectations about it's contents. It feels more safe to do it this way,
-		even though design and code files aren't supposed to be together.
+		fill the webpage with a form and, possibly, results
 	'''
 
 	page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
@@ -89,19 +82,17 @@ def getPageAsHTML(parameters):
 			<!-- results get popped in here -->
 			%s
 
-			<!-- links -->
-			<h4>Source Code</h4>
-			<p> <a href="showsource.py?source=webapp.py">webapp.py</a> </p>
-			<p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a> </p>
-			<p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
-			<p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
-			
 		''' % (getFormAsHTML(parameters), getSearchResultsAsHTML(parameters))
+	page += CrimrHTMLBuilder.getNavigationLinks()
 	page += CrimrHTMLBuilder.getClosingHTML()
 
 	return page
 
 def getFormAsHTML(parameters):
+	'''
+	Returns valid HTML as a string which represents the search form
+	Will be placed directly into the output String of 'getPageAsHTML(parameters)'
+	'''
 	html = '''<form action="webapp.py" method="get">
 				<!-- Text Search Box -->
 				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
@@ -163,7 +154,7 @@ def getFormAsHTML(parameters):
 
 def getSearchResultsAsHTML(parameters):
 	''' Returns the search results form the PSQL database, formatted into an HTML String
-		Will be placed directly into the output String of 'getPageAsHTML(searchString)'
+		Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
 	outputString = ''
 	try:

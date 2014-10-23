@@ -40,7 +40,7 @@ class CrimrHTMLBuilder:
         template = '''<!DOCTYPE HTML>
         <html>
         <head>
-        <link rel="stylesheet" type="text/css" href="/cs257/earleyg/webapp3/style.css" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
         <title>[[TITLE]]</title>
         </head>'''
         html = template.replace('[[TITLE]]',title)
@@ -57,7 +57,10 @@ class CrimrHTMLBuilder:
             params:
                 - headings : String[]? : Gets formatted into the list as a header row
                 - data : String[][] : Gets formatted into the html as a table
+                if data is at all empty, an HTML error message is returned
         '''
+        if len(data) == 0:
+            return '<p>No Results</p>'
         html = '<table border="1">'
         if headings is not None:
             #fill in a header row
@@ -77,15 +80,15 @@ class CrimrHTMLBuilder:
     @staticmethod
     def getHTMLVertTable(headings, data):
         '''
-        Returns an HTML string that creates, fills, and closes
-        a vertical Table tag.
+                Returns an HTML string that creates, fills, and closes
+                a vertical Table tag.
 
-        This parameter setup is designed to interface
-        with CrimeDataFetcher.py
+                This parameter setup is designed to interface
+                with CrimeDataFetcher.py
 
-        params:
-                -headings: String[] : Gets formatted into the list as the header column
-                -data: String[]? : Gets formatted into the html as a table
+                params:
+                        -headings: String[] : Gets formatted into the list as the header column
+                        -data: String[]? : Gets formatted into the html as a table
         '''
         html = '<table border="1">'
         if headings is not None and data is not None:
@@ -94,18 +97,12 @@ class CrimrHTMLBuilder:
                 html += '<tr>'
                 html += '<th>%s</th>' % header
                 html+= '<td>%s</td>' % data[0][i]
-                '''
-                for row in data:
-                    for cell in row:
-                        html += '<td>%s</td>' % cell
-                '''
                 html += '</tr>'
                 i += 1
-
         elif headings is not None:
             for header in headings:
                 html += '<th>%s</th>' % header
-                html += '</tr>'
+            html += '</tr>'
 
         html += '</table>'
         return html
@@ -119,15 +116,32 @@ class CrimrHTMLBuilder:
         '''
 
         template = '''<body>
-        <img src="/cs257/earleyg/webapp3/Logo.png" width="200" height="150" id="picture">
+        <a href="webapp.py">
+        <img src="Logo.png" alt="CRIMR" width="400" height="300">
+        </a>
         <h2>[[SUBPAGE_HEADER]]</h2>
         '''
         html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
         return html
 
     @staticmethod
+    def getNavigationLinks():
+        '''
+            Returns an HTML string which links the user to the secondary
+            features of CRIMR
+        '''
+        return '''
+        <h3>Features</h3>
+        <p><a href="CrimeScorePage.py">CrimeScore</a> get a personalized crime score</p>
+        <p><a href="RandomCrimePage.py">Vigilante Button</a> get a random, unsolved crime</p>
+        '''
+
+    @staticmethod
     def getClosingHTML():
         '''
             Returns an HTML string which closes the Body & HTML tags
+            as well as inserts the link to the readme.html page
         '''
-        return '''</body></html>'''
+        return '''<p>CRIMR : imhoffc, earleyg, walkere</p>
+        <p><a href="readme.html">readme</a></p>
+        </body></html>'''
