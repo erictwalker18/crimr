@@ -70,15 +70,10 @@ class CrimeScore:
     # Multiply by 100 and round to remove the decimal:
     return round(quotient*100)
 
-  def getScoreCommentary(self, score = None):
-    '''Return a string comment characterizing the CrimeScore.
-    The score parameter is optional; use it to get a message for
-    a certain score, or leave it out and get the message for the
-    CrimeScore class's current score calculation.'''
+  def getScoreCommentary(self):
+    '''Return a string comment characterizing the CrimeScore.'''
 
-    if score == None:
-      score = self.calculateCrimeScore()
-    else: score = int(score)
+    score = self.calculateCrimeScore()
 
     if score < 10:
       return "Either nothing scares you, or there's not much crime out there. Either way, you should feel pretty comfortable."
