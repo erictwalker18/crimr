@@ -35,15 +35,15 @@ if __name__ == '__main__':
     # Not going to allow people to view just anything.
     allowedFiles = (
         'showsource.py',
-        'tinywebapp.py',
         'webapp.py',
-	      'CrimeDataFetcher.py',
+	    'CrimeDataFetcher.py',
         'CrimeScorePage.py',
         'CrimeScore.py',
         'RandomCrimePage.py',
         'CrimeDetails.py',
-        'CrimrHTMLBuilder.py'
-
+        'CrimrHTMLBuilder.py',
+        'stle.css',
+        'index.py'
     )
 
     # Really. Don't trust the user.
