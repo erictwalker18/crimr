@@ -215,7 +215,7 @@ class CrimeDataFetcher:
 
             #Execute the query in a safe manner, taking advantage of .execute()'s format
             #str compatibility & helpful injection attack detection.
-            query = 'SELECT * FROM crimes WHERE resolution='None' ORDER BY random() limit 1'
+            query = 'SELECT * FROM crimes WHERE resolution=None ORDER BY random() limit 1'
             cursor.execute(query)
 
             #Construct a 2D array of all the information from the query
