@@ -92,6 +92,8 @@ def getFormAsHTML(parameters):
 	Returns valid HTML as a string which represents the search form
 	Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
+	#most of the form select options are hardcoded in
+	#districts will never change in the city, hardcoded
 	html = '''<form action="webapp.py" method="get">
 				<!-- Text Search Box -->
 				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
@@ -112,7 +114,7 @@ def getFormAsHTML(parameters):
 					<option value="richmond">Richmond</option>
 				</select>
 			'''
-	#Categories aren't hardcoded in
+	#categories aren't hardcoded in, due to size and scope
 	fetcher = CrimeDataFetcher()
 	cats = fetcher.getListOfCategories()
 	html += '''By Category:<select name="category" id="category">'''
@@ -120,6 +122,7 @@ def getFormAsHTML(parameters):
 	for cat in cats:
 		html += '''<option value="%s" id="%s">%s</option>''' % (cat.lower(),cat.lower(),cat.title())
 	html += '''</select>'''
+	#days and resolution types are also static, so they're hardcoded
 	html += '''
 				by Day of Week:
 				<select name="day" id="day">
@@ -132,6 +135,9 @@ def getFormAsHTML(parameters):
 					<option value="friday">Friday</option>
 					<option value="saturday">Saturday</option>
 				</select>
+			'''
+	#resolution types flagged with * represent special searches to CrimeDataFetcher
+	html += '''
 				by Resolution:
 				<select name="resolution" id="resolution">
 					<option value="-">--</option>
