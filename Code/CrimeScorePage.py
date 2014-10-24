@@ -3,7 +3,7 @@
 '''
     CRIMR
 
-    CrimrHTMLBuilder.py (phase_3)
+    CrimeScorePage.py (phase_3)
 
     Charlie Imhoff,
     Graham Earley,

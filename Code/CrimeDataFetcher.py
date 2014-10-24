@@ -29,7 +29,7 @@ class CrimeDataFetcher:
     def cleanInput(self, str):
         ''' Removes any control characters that out HTML might be screwed up by
         '''
-        charsToRemove = ';,\\/:\'"<>@'
+        charsToRemove = ';\\:\'"<>@'
         for ch in charsToRemove:
             str = str.replace(ch, '')
         return str
@@ -97,7 +97,7 @@ class CrimeDataFetcher:
                 else:
                     query += ' WHERE'
                     queryHasWhere = True
-                toQ = " category ILIKE '%[s]%'"
+                toQ = " category ILIKE '[s]'"
                 query += toQ.replace('[s]',category)
 
             if 'resolution' in searchParams and searchParams['resolution'] != '-':
@@ -128,7 +128,7 @@ class CrimeDataFetcher:
 
             if queryHasWhere:       #requires an actual search to return data
                 cursor.execute(query)
-                #print "query : %s" % query || was used for debugging
+                print "query : %s" % query # || was used for debugging
                 table = self.createTableFromCursor(cursor)
                 connection.close()
                 return table

@@ -27,7 +27,7 @@ from CrimrHTMLBuilder import CrimrHTMLBuilder
 def cleanInput(str):
 	''' Removes any control characters that our HTML might be screwed up by
 	'''
-	charsToRemove = ';,\\/:\'"<>@'
+	charsToRemove = ';\\:\'"<>@'
 	for ch in charsToRemove:
 		str = str.replace(ch, '')
 	return str
@@ -111,18 +111,16 @@ def getFormAsHTML(parameters):
 					<option value="taraval">Taraval</option>
 					<option value="richmond">Richmond</option>
 				</select>
-				by Category:
-				<select name="category" id="category">
-					<option value="-">--</option>
-					<option value="homocide">Homocide</option>
-					<option value="theft">Theft</option>
-					<option value="assault">Assault</option>
-					<option value="vandalism">Vandalism</option>
-					<option value="drug">Drug</option>
-					<option value="robbery">Robbery</option>
-					<option value="missing">Missing Person</option>
-					<option value="non-criminal">Non-Criminal</option>
-				</select>
+			'''
+	#Categories aren't hardcoded in
+	fetcher = CrimeDataFetcher()
+	cats = fetcher.getListOfCategories()
+	html += '''By Category:<select name="category" id="category">'''
+	html += '''<option value="-">--</option>'''
+	for cat in cats:
+		html += '''<option value="%s" id="%s">%s</option>''' % (cat.lower(),cat.lower(),cat.title())
+	html += '''</select>'''
+	html += '''
 				by Day of Week:
 				<select name="day" id="day">
 					<option value="-">--</option>
