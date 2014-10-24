@@ -143,10 +143,9 @@ class CrimrHTMLBuilder:
             features of CRIMR
         '''
         dataFetcher = CrimeDataFetcher()
-        return '''
-        <h3>Features</h3>
-        <p><a href="CrimeScorePage.py">CrimeScore</a> get a personalized crime score</p>
-        <p><a href="CrimeDetails.py?search=%s">Vigilante Button</a> get a random, unsolved crime</p>
+        return '''<hr>
+        <h3><a href="CrimeScorePage.py">CrimeScore:</a> get a personalized crime score</h3>
+        <h3><a href="CrimeDetails.py?search=%s">Vigilante Button:</a> get a random, unsolved crime</h3>
         ''' % dataFetcher.getRandomUnsolvedCrimeID()
 
     @staticmethod
@@ -155,7 +154,7 @@ class CrimrHTMLBuilder:
             Returns an HTML string which closes the Body & HTML tags
             as well as inserts the link to the readme.html page
         '''
-        return '''<h4>Information</h4>
+        return '''<hr>
         <p><i>CRIMR : imhoffc, earleyg, walkere</i></p>
         <p><a href="readme.html">Project ReadMe</a></p>
         </body></html>'''
