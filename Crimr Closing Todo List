@@ -1,0 +1,61 @@
+
+Crimr
+TO-DO by Tomorrow at 9:15pm in Libe
+    (push completed code to master before the meeting)
+
+
+    (Split up by file, as to avoid Merge Conflicts)
+
+= For All Files
+    - Ensure use of HTMLBuilder when building HTML
+    - Comment your complex code snippets
+    - Comment unclear methods and parameters
+    - Comment all our names, the project name, and phase_3 at the top of file
+            (just under the bash identifier)
+
+= CrimeDetails.py <Eric>
+    - Hotfix!
+    - Should take in a crime_id as a param and display nice info
+    - CSS should be referenced (use HTML builder)
+    - GoogleMaps Plot Point (if possible)
+
+= RandomCrimePage.py <Eric>
+    - This page shouldn't really have to exist on its own
+    - CSS should be referenced (use HTML builder)
+
+= CrimeScorePage.py <Graham>
+    - Default values ? Maybe just a '-' ? idk...
+    - How this is calculated should be more user apparent
+
+= CrimeScore.py <Graham>
+    - Just keep being cool, CrimeScore.py
+
+= CrimrHTMLBuilder.py <Charlie>
+    - Ensure CSS is referenced
+    - Image tag in .getTopOfBody() pulls from cwd & links to homepage
+    - .getClosingHTML() should include a link to readme.html page
+    - Fill in links in table to CrimeDetails?source=___
+    - Change Stylesheet and HeaderImage filepaths to match cwd
+
+= readme.html <Graham>
+    - Needs to be made (with links to source files)
+    - Change Stylesheet to match cwd
+    - Add in source files
+    - Links all need to be for cwd items
+
+= showsource.py <Charlie>
+    - Update with permissions for all source files we've used
+
+= CSS <Graham>
+    - Final tweaks
+    - Header Navigation
+
+= CrimeDataFetcher.py <Charlie>
+    - db constants (maybe)
+    - remove unused methods
+    - getRandomCrimeID() should return an unsolved crime's id
+
+= webapp.py <Charlie>
+    - cursor error 'districts'
+    - links to other 2 pages
+    - rename webapp.py -> index.py

@@ -89,12 +89,6 @@ def getPageAsHTML(crimeID):
             <form action="CrimeDetails.py" method="get">
                 <p><input type="submit" value="Get Unsolved Crime!" /></p>
             </form>
-            <!-- links -->
-            <h4>Source Code</h4>
-            <p> <a href="showsource.py?source=CrimeDetails.py">CrimeDetails.py</a> </p>
-            <p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a> </p>
-            <p> <a href="showsource.py?source=CrimrHTMLBuilder.py">CrimrHTMLBuilder.py</a> </p>
-            <p> <a href="showsource.py?source=showsource.py">showsource.py</a> </p>
             
         ''' % (getDataAsHTML(crimeID))
     page += CrimrHTMLBuilder.getClosingHTML()
