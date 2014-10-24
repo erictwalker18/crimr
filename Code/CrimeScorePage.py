@@ -20,8 +20,8 @@
 '''
 
 import cgi
-import cgitb
-cgitb.enable()
+# import cgitb
+# cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 from CrimeScore import CrimeScore

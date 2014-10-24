@@ -16,8 +16,8 @@
 '''
 
 import cgi
-import cgitb
-cgitb.enable()
+# import cgitb
+# cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 from CrimrHTMLBuilder import CrimrHTMLBuilder
@@ -38,7 +38,7 @@ def getParametersFromFormOrDefaults():
 
         By default, this will return an ID of a random crime from the database, if
         a search cgi parameter is given and is valid, it will return the ID of that
-        crime.        
+        crime.
     '''
     dataFetcher = CrimeDataFetcher()
     #default is a random unsolved crime
@@ -81,7 +81,7 @@ def getPageAsHTML(crimeID):
             </div>
 
             <div id="features">
-            
+
             </div>
             <!-- Get Random Unsolved Crime Button -->
 
@@ -89,7 +89,7 @@ def getPageAsHTML(crimeID):
             <form action="CrimeDetails.py" method="get">
                 <p><input type="submit" value="Get Unsolved Crime!" /></p>
             </form>
-            
+
         ''' % (getDataAsHTML(crimeID))
     page += CrimrHTMLBuilder.getClosingHTML()
 
@@ -128,7 +128,7 @@ def getDataAsHTML(crimeID):
                 </script>
                 <div id="googleMap" style="width:500px;height:380px;"></div>
 
-                
+
                 ''' %(outputTable[0][8], outputTable[0][7])
         except Exception, e:
             outputString +=  'Cursor error: %s' % e

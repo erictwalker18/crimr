@@ -8,8 +8,8 @@
     Graham Earley,
     Eric Walker
 '''
-import cgitb
-cgitb.enable()
+# import cgitb
+# cgitb.enable()
 import re   #regex checking module
 from CrimeDataFetcher import CrimeDataFetcher
 

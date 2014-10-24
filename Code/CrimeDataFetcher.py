@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import psycopg2
-import cgitb
-cgitb.enable()
+# import cgitb
+# cgitb.enable()
 '''
     CRIMR
 
@@ -128,7 +128,6 @@ class CrimeDataFetcher:
 
             if queryHasWhere:       #requires an actual search to return data
                 cursor.execute(query)
-                print "query : %s" % query # || was used for debugging
                 table = self.createTableFromCursor(cursor)
                 connection.close()
                 return table
