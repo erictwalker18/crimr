@@ -1,4 +1,9 @@
 #!/usr/bin/python
+'''
+	used by CRIMR
+
+	showsource.py (phase_3)
+'''
 ''' showsource.py
     Jeff Ondich, 16 October 2013
 
@@ -6,12 +11,6 @@
     the server-side code and to view its source. I was using an awkward
     system for providing access to the source code, so I'm going to try
     this simpler idea. We'll see if it's any easier to use.
-'''
-
-'''
-	used by CRIMR
-
-	showsource.py (phase_2)
 '''
 
 import cgi
@@ -39,7 +38,6 @@ if __name__ == '__main__':
 	    'CrimeDataFetcher.py',
         'CrimeScorePage.py',
         'CrimeScore.py',
-        'RandomCrimePage.py',
         'CrimeDetails.py',
         'CrimrHTMLBuilder.py',
         'style.css',

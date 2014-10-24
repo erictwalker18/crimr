@@ -1,6 +1,15 @@
 #!/usr/bin/python
 
 '''
+    CRIMR
+
+    CrimrHTMLBuilder.py (phase_3)
+
+    Charlie Imhoff,
+    Graham Earley,
+    Eric Walker
+'''
+'''
   CRIMR | CrimeScore
 
   This program generates the HTML output for the
@@ -78,7 +87,7 @@ def getPageAsHTML():
       <h3> Rate the crimes that scare you!</h3>
       <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
       <i>(0 = not scary, 10 = horrifying)</i></br>
-      <a href="/cs257/earleyg/webapp3/readme.html"><i>Read the methodology section of our README for more information about this calculation.</i></a>
+      <a href="readme.html"><i>Read the methodology section of our README for more information about this calculation.</i></a>
       </br>
       </br>
 

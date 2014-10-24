@@ -1,3 +1,13 @@
+'''
+    CRIMR
+
+    CrimrHTMLBuilder.py (phase_3)
+
+    Charlie Imhoff,
+    Graham Earley,
+    Eric Walker
+'''
+
 from CrimeDataFetcher import CrimeDataFetcher
 
 class CrimeScore:
