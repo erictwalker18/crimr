@@ -129,7 +129,7 @@ class CrimrHTMLBuilder:
 
         template = '''<body>
         <a href="webapp.py">
-        <img src="Logo.png" alt="CRIMR" width="400" height="300">
+        <img src="/cs257/earleyg/webapp3/Logo.png" alt="CRIMR" width="164" height="59">
         </a>
         <h2>[[SUBPAGE_HEADER]]</h2>
         '''

@@ -77,19 +77,13 @@ def getPageAsHTML():
 
       <h3> Rate the crimes that scare you!</h3>
       <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
-      <i>(0 = not scary, 10 = horrifying)</i>
+      <i>(0 = not scary, 10 = horrifying)</i></br>
+      <a href="/cs257/earleyg/webapp3/readme.html"><i>Read the methodology section of our README for more information about this calculation.</i></a>
+      </br>
       </br>
 
       <!-- Crime rating form:-->
       %s
-
-      <!-- Source links -->
-      <hr>
-      <h4>Source Code</h4>
-      <p> <a href="showsource.py?source=CrimeScore.py">CrimeScore.py Source Code</a> </p>
-      <p> <a href="showsource.py?source=CrimeScorePage.py">CrimeScorePage.py Source Code</a> </p>
-      <p> <a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py Source Code</a> </p>
-      <p> <a href="showsource.py?source=showsource.py">showsource.py Source Code</a> </p>
     ''' % (getCrimeScoreHTMLReadOut(), getFormHTML())
   page += CrimrHTMLBuilder.getClosingHTML()
 
@@ -126,7 +120,9 @@ def getFormHTML():
   outputString += '</tr>' # Close off the last table row.
   outputString += '</table>'
 
-  outputString+= '<p><input type="submit" value="Calculate CrimeScore" /></p>'
+  outputString += '<div style="text-align:center">'
+  outputString += '<p><input type="submit" value="Calculate CrimeScore" /></p>'
+  outputString += '</div>'
   outputString += '</form>'
 
   return outputString
@@ -167,8 +163,8 @@ def getCrimeScoreHTMLReadOut():
     commentary = getCrimeScoreCommentary()
 
     outputString = "<div id='crimeScore'>"
-    outputString += "<h2>Your Personalized CrimeScore:</h2>"
-    outputString += "<h1>%i</h1>" % score
+    outputString += "<h2 id='crimescore-head'>Your Personalized CrimeScore:</h2>"
+    outputString += "<h1 id='crimescore'>%i</h1>" % score
     outputString += "<h6>(scores range from 0 to 100)</h6>"
     outputString += "<p>%s</p>" % commentary
     outputString += "<hr>"
