@@ -8,6 +8,10 @@
     Eric Walker,
     Charlie Imhoff,
     Graham Earley
+
+    The Google Map Initiation script is pulled from:
+        Google
+            (developers.google.com)
 '''
 
 '''
@@ -83,8 +87,6 @@ def getPageAsHTML(crimeID):
             <div id="features">
 
             </div>
-            <!-- Get Random Unsolved Crime Button -->
-
             <!-- form -->
             <form action="CrimeDetails.py" method="get">
                 <p><input type="submit" value="Get Unsolved Crime!" /></p>
@@ -122,14 +124,17 @@ def getDataAsHTML(crimeID):
                     zoom:19,
                     mapTypeId:google.maps.MapTypeId.ROADMAP };
                     var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                    var marker=new google.maps.Marker({
+                        position: new google.maps.LatLng(%s,%s),
+                        map:map,
+                        title: 'Scene of the Crime'
+                    })
                 }
 
                 google.maps.event.addDomListener(window, 'load', initialize);
                 </script>
                 <div id="googleMap" style="width:500px;height:380px;"></div>
-
-
-                ''' %(outputTable[0][8], outputTable[0][7])
+                ''' %(outputTable[0][8], outputTable[0][7], outputTable[0][8], outputTable[0][7])
         except Exception, e:
             outputString +=  'Cursor error: %s' % e
     except Exception, e:

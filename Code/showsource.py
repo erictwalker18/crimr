@@ -41,7 +41,8 @@ if __name__ == '__main__':
         'CrimeDetails.py',
         'CrimrHTMLBuilder.py',
         'style.css',
-        'index.py'
+        'index.py',
+        'Dataset_Cleaning/CSVcleaner.py'
     )
 
     # Really. Don't trust the user.

@@ -71,14 +71,15 @@ class CrimeDataFetcher:
             #and if it is, append an extra condition to the query
             if searchParams['search'] is not None and searchParams['search'] != '':
                 search = self.cleanInput(searchParams['search'])
-                if queryHasWhere:
-                    query += ' AND'
-                else:
-                    query += ' WHERE'
-                    queryHasWhere = True
-                #narrow with search
-                longOr = " (district ILIKE '%[search]%' OR description ILIKE '%[search]%' OR category ILIKE '%[search]%' OR resolution ILIKE '%[search]%' OR dayofweek ILIKE '[search]%')"
-                query += longOr.replace("[search]",search)
+                for word in search.split():
+                    if queryHasWhere:
+                        query += ' AND'
+                    else:
+                        query += ' WHERE'
+                        queryHasWhere = True
+                    #narrow with search
+                    longOr = " (district ILIKE '%[search]%' OR description ILIKE '%[search]%' OR category ILIKE '%[search]%' OR resolution ILIKE '%[search]%' OR dayofweek ILIKE '[search]%')"
+                    query += longOr.replace("[search]",word)
 
             if 'district' in searchParams and searchParams['district'] != '-':
                 district = self.cleanInput(searchParams['district'])

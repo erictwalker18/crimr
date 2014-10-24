@@ -6,8 +6,10 @@
 </head>
 
 <body>
-
-    <h1>CRIMR Description</h1>
+    <a href="webapp.py">
+    <img src="Logo.png" alt="CRIMR" width="164" height="59">
+    </a>
+    <h1>Project Description</h1>
     <i>A product of CRIMR Studios: Eric Walker, Graham Earley, and Charlie Imhoff</i>
 
       <p>
@@ -17,8 +19,8 @@
         focus your search in by specifying a certain district, category, day of week, and
         or resolution status, and then searching from there.
       </p>
+
       <h3>Feature List</h3>
-      <p>
         <ul>
           <li>Broad search of crimes (looking through the various attributes)</li>
           <li>Narrowed down search of crimes (looking through crimes with certain attributes
@@ -26,42 +28,47 @@
           <li>The CrimeScore Index: rank your fear of all the crime categories and receive
           a personalized 'CrimeScore' letting you know how scared you should be of the
           current crime level.</li>
+          <li>View any crime in more detail by clicking its Crime ID.</li>
           <li>Get a random crime (and see it on a map). Practice vigilante justice at your own
           discretion.</li>
         </ul>
-      </p>
 
-    <h1>Changes Since Conception</h1>
+      <h1>Changes Since Conception</h1>
+          <ul>
+            <li>A main change from our initial conception (seen especially in our mockups) is
+            the visual design. Our HTML forms are not as nicely formatted (we didn't have much
+            time to play with prettier JQuery forms), for one thing. Also, with the relatively short timeframe
+            of the project, we didn't focus too much on CSS, although that would have helped our site
+            be more true to the mockups.</li>
+            <li>Some of our features were lumped into the search. For example, <i>'Find out which days
+            of the week are most dangerous'</i> is now simply up to the user to figure out by using our
+            search (search for Wednesday and see how much crime there is) rather than there being
+            a set page that shows you what the crime activity is like for each day.</li>
+            <li>Certain time saving features, such as sorting tables through JQuery were
+            cut due to development timeframe.</li>
+          </ul>
 
+
+    <h1>Things That Would Have Been Useful to Know Earlier</h1>
       <ul>
-        <li>A main change from our initial conception (seen especially in our mockups) is
-        the visual design. Our HTML forms are not as nicely formatted (we didn't have much
-        time to play with prettier JQuery forms), for one thing. Also, with the relatively short timeframe
-        of the project, we didn't focus too much on CSS, although that would have helped our site
-        be more true to the mockups.</li>
-        <li>Some of our features were lumped into the search. For example, <i>'Find out which days
-          of the week are most dangerous'</i> is now simply up to the user to figure out by using our
-          search (search for Wednesday and see how much crime there is) rather than there being
-          a set page that shows you what the crime activity is like for each day.</li>
-        <li></li>
-        <li></li>
+        <li>CSS knowledge / more time to experiment with CSS</li>
+        <li>JavaScript and JQuery in-class experimentation / code review</li>
+        <li>Using Git to create an effective, multiperson workflow</li>
+        <li>Making a Unified HTMLBuilder class to seperate design from logic.
+        And to unify common elements between pages</li>
+        <li>Creating a data-fetching class to effectively outsource complex
+        queries from HTML pages and form logic</li>
       </ul>
 
-
-    <h2>Things That Would Have Been Useful</h2>
-
-      <ul>CSS knowledge / more time to experiment with CSS</ul>
-
-
-    <h2>Citations, etc.</h2>
-
+    <h1>Citations, etc.</h1>
       <ul>
         <li><a href="https://data.sfgov.org/Public-Safety/Map-Crime-Incidents-Previous-Three-Months/gxxq-x39z">The dataset came from this page</a>, provided by the San Francisco government.</li>
         <li>The licensing information is given in the 'About' section of the dataset's homepage: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Universal License</a></li>
-        <li> <a href="tables.sql">Our <b>CREATE TABLE</b> statements</a></li>
+        <li><a href="tables.sql">Our <b>CREATE TABLE</b> statements</a></li>
+        <li>Copied code snippets are cited in source, where used.</li>
       </ul>
 
-    <h2>Source code files:</h2>
+    <h1>Source code files:</h1>
       <ul>
         <li><a href="showsource.py?source=webapp.py">webapp.py</a></li>
         <li><a href="showsource.py?source=CrimeDataFetcher.py">CrimeDataFetcher.py</a></li>
@@ -71,11 +78,20 @@
         <li><a href="showsource.py?source=CrimeDetails.py">CrimeDetails.py</a></li>
         <li><a href="showsource.py?source=style.css">style.css</a></li>
         <li><a href="showsource.py?source=showsource.py">showsource.py</a></li>
+        <li>Data Set Cleaning</li>
+        <ul>
+          <li><a href="showsource.py?source=Dataset_Cleaning/CSVcleaner.py">CSVCleaner.py</a></li>
+          <li><a href="Dataset_Cleaning/Full_Crime_Dataset.csv">Full_Crime_Dataset.csv (big file)</a></li>
+          <li><a href="Dataset_Cleaning/dataset_with_the_useful_columns.csv">dataset_with_the_useful_columns.csv</a></li>
+          <li><a href="Dataset_Cleaning/python_cleaned_dates_csv.csv">python_cleaned_dates_csv.csv</a></li>
+          <li><a href="Dataset_Cleaning/truncated_data.csv">truncated_data.csv</a></li>
+          <li><a href="Dataset_Cleaning/truncated_data_NoHeaders.csv">truncated_data_NoHeaders.csv</a></li>
+        </ul>
       </ul>
 
     <hr>
 
-    <h2>CrimeScore methodology</h2>
+    <h3>CrimeScore methodology</h3>
     <p> Here's how the CrimeScore is calculated:
         Multiply the amount of crimes in each category by the user's
         rating for that category (0-10). Add all these up. Now, in order to make this decimal
