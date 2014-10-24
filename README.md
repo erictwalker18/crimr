@@ -10,4 +10,4 @@ Eric Walker
 ***
 ## Please view our phase_2 code live on http://thacker.mathcs.carleton.edu/cs257/imhoffc/phase_2/webapp.py
 
-## Please view our phase_3 code live on http://thacker.mathcs.carleton.edu/cs257/imhoffc/webapp3/webapp.py
+## Please view our phase_3 code live on http://thacker.mathcs.carleton.edu/cs257/imhoffc/webapp3/index.py
