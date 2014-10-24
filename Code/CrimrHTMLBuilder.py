@@ -144,6 +144,7 @@ class CrimrHTMLBuilder:
         '''
         dataFetcher = CrimeDataFetcher()
         return '''<hr>
+        <h2>Other Features</h2>
         <h3><a href="CrimeScorePage.py">CrimeScore:</a> get a personalized crime score</h3>
         <h3><a href="CrimeDetails.py?search=%s">Vigilante Button:</a> get a random, unsolved crime</h3>
         ''' % dataFetcher.getRandomUnsolvedCrimeID()
