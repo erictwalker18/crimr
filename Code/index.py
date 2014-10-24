@@ -2,7 +2,7 @@
 '''
 	CRIMR
 
-	webapp.py (phase_3)
+	index.py (phase_3)
 
 	Charlie Imhoff,
 	Graham Earley,
@@ -94,7 +94,7 @@ def getFormAsHTML(parameters):
 	'''
 	#most of the form select options are hardcoded in
 	#districts will never change in the city, hardcoded
-	html = '''<form action="webapp.py" method="get">
+	html = '''<form action="index.py" method="get">
 				<!-- Text Search Box -->
 				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
 				<!-- Narrowing Dropdowns -->
