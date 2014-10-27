@@ -94,6 +94,7 @@ def getFormAsHTML(parameters):
 	'''
 	#most of the form select options are hardcoded in
 	#districts will never change in the city, hardcoded
+	districts = ["Tenderloin", "Central", "Bayview", "Ingleside", "Mission", "Northern", "Park", "Southern", "Taraval", "Richmond"]
 	html = '''<form action="index.py" method="get">
 				<!-- Text Search Box -->
 				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
@@ -101,19 +102,11 @@ def getFormAsHTML(parameters):
 				<p>
 				by District:
 				<select name="district" id="district">
-					<option value="-">--</option>
-					<option value="tenderloin">Tenderloin</option>
-					<option value="central">Central</option>
-					<option value="bayview">Bayview</option>
-					<option value="ingleside">Ingleside</option>
-					<option value="mission">Mission</option>
-					<option value="northern">Northern</option>
-					<option value="park">Park</option>
-					<option value="southern">Southern</option>
-					<option value="taraval">Taraval</option>
-					<option value="richmond">Richmond</option>
-				</select>
-			'''
+				'''
+	html += '''<option value="-">--</option>'''
+	for district in districts:
+		html+= '''<option value="%s">%s</option>''' % (district.lower(), district)
+	html+= '''</select>'''
 	#categories aren't hardcoded in, due to size and scope
 	fetcher = CrimeDataFetcher()
 	cats = fetcher.getListOfCategories()
@@ -123,31 +116,25 @@ def getFormAsHTML(parameters):
 		html += '''<option value="%s" id="%s">%s</option>''' % (cat.lower(),cat.lower(),cat.title())
 	html += '''</select>'''
 	#days and resolution types are also static, so they're hardcoded
+	daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	html += '''
 				by Day of Week:
 				<select name="day" id="day">
-					<option value="-">--</option>
-					<option value="sunday">Sunday</option>
-					<option value="monday">Monday</option>
-					<option value="tuesday">Tuesday</option>
-					<option value="wednsday">Wednesday</option>
-					<option value="thursday">Thursday</option>
-					<option value="friday">Friday</option>
-					<option value="saturday">Saturday</option>
-				</select>
 			'''
+	html += '''<option value="-">--</option>'''
+	for day in daysOfWeek:
+		html+= '''<option value="%s">%s</option>''' % (day.lower(), day)
+	html += '''</select>'''
 	#resolution types flagged with * represent special searches to CrimeDataFetcher
+	resolutions = ["*Resolved*", "*Unresolved*", "Arrest", "Booking", "Citing", "Psychopathic", "Not Prosecute"]
 	html += '''
 				by Resolution:
 				<select name="resolution" id="resolution">
-					<option value="-">--</option>
-					<option value="*resolved*">Resolved</option> #special case
-					<option value="*unresolved*">Unresolved</option>
-					<option value="arrest">Arrest</option>
-					<option value="book">Booking</option>
-					<option value="cite">Citing</option>
-					<option value="psychopathic">Psychopathic Case</option>
-					<option value="not prosecute">Not Prosecuted</option>
+			'''
+	html += '''<option value="-">--</option>'''
+	for resolution in resolutions:
+		html += '''<option value="%s">%s</option>''' % (resolution.lower(), resolution)
+	html += '''
 				</select>
 				</p>
 				<p><input type="submit" value="Find Crime" /></p>

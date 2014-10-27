@@ -121,6 +121,8 @@ def getFormHTML():
     outputString += '<select name="%s" id=%s>' % (category, category)
     for num in range(0,CrimeScore.MAX_SCORE + 1):
       outputString+= '<option value="%s">%i</option>' % (str(num), num)
+    #Setting the default value to 2 for everything!!!
+    outputString = outputString.replace('<option value="2"', '<option selected="selected" value="2"')
     outputString += '</select>'
     outputString += '</td>'
 
