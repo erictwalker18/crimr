@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import psycopg2
-# import cgitb
-# cgitb.enable()
+import cgitb
+cgitb.enable()
 import DatabaseConstants
 
 '''
@@ -54,12 +54,15 @@ class CrimeDataFetcher:
             parameters are passed in as a dictionary, that makes every search narrower
             optional.
 
-            Search Keys & Expected Types:
-                - 'search'        : String (will be bluntly searched against the table)
-                - 'district'    : String
-                - 'category'    : String
-                - 'day'            : String
-                - 'resolution'    : String
+            When no search is inputed, this method returns the literal None.
+            If a search has zero results, a blank 2D list is returned.
+
+            Search Keys (all string values):
+                - 'search' : will be blunted searched against most of the data
+                - 'district'
+                - 'category'
+                - 'day'
+                - 'resolution' : has special keys '*resolved*' and '*unresolved*'
         '''
         connection = self._getConnection()
         if connection is not None:
@@ -135,10 +138,11 @@ class CrimeDataFetcher:
                 connection.close()
                 return table
             else:
-                return [[]]
-
+                #None indicates no real search (a query with no WHERE),
+                #a blank table would indicate a search with zero results
+                return None
         else:
-            return [[]]
+            raise Exception("Connection Error")
 
 
     #ACCESSING DATA
@@ -159,7 +163,7 @@ class CrimeDataFetcher:
             return table
 
         else:
-            return [[]]
+            raise Exception("Connection Error")
 
     def getNumberOfCrimesInCategory(self, category):
         ''' Returns the quantity of crimes under a category'''
@@ -192,6 +196,8 @@ class CrimeDataFetcher:
                 # (Cleaning up the list)
 
             return categoryList
+        else:
+            raise Exception("Connection Error")
 
     def getCrimeFromID(self, idNum):
         ''' Returns a table containing the data from one crime, identified by the
@@ -206,12 +212,12 @@ class CrimeDataFetcher:
             cursor.execute(query, (idNum,))
 
             #Construct a 2D array of all the information from the query
-            table = self.createTableFromCursor(cursor)
+            crimeRow = cursor.fetchone()
             connection.close() #we're done with the connection
-            return table
+            return crimeRow
 
         else:
-            return [[]]
+            raise Exception("Connection Error")
 
     def getRandomUnsolvedCrimeID(self):
         ''' Returns the ID of a random unsolved Crime'''
@@ -225,10 +231,10 @@ class CrimeDataFetcher:
             cursor.execute(query)
 
             #Construct a 2D array of all the information from the query
-            table = self.createTableFromCursor(cursor)
+            crimeData = cursor.fetchone()
             connection.close() #we're done with the connection
             #Extract the one number we need from the table
-            return table[0][0]
+            return crimeData[0]
 
         else:
-            return [[]]
+            raise Exception("Connection Error")

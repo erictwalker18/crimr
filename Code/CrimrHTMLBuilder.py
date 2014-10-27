@@ -108,7 +108,7 @@ class CrimrHTMLBuilder:
             for header in headings:
                 html += '<tr>'
                 html += '<th>%s</th>' % header
-                html+= '<td>%s</td>' % data[0][i]
+                html+= '<td>%s</td>' % data[i]
                 html += '</tr>'
                 i += 1
         elif headings is not None:
@@ -146,8 +146,8 @@ class CrimrHTMLBuilder:
         return '''<hr>
         <h2>Other Features</h2>
         <h3><a href="CrimeScorePage.py">CrimeScore:</a> get a personalized crime score</h3>
-        <h3><a href="CrimeDetails.py?search=%s">Vigilante Button:</a> get a random, unsolved crime</h3>
-        ''' % dataFetcher.getRandomUnsolvedCrimeID()
+        <h3><a href="CrimeDetails.py">Vigilante Button:</a> get a random, unsolved crime</h3>
+        '''
 
     @staticmethod
     def getClosingHTML():
