@@ -72,16 +72,11 @@ def getPageAsHTML(parameters):
 
 	page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
 	page += CrimrHTMLBuilder.getTopOfBody('Homepage')
-	page += '''
-			<h4>Search</h4>
 
-			<!-- form -->
-			%s
+	page += '<h4>Search</h4>'
+	page += getFormAsHTML(parameters)
+	page += getSearchResultsAsHTML(parameters)
 
-			<!-- results get popped in here -->
-			%s
-
-		''' % (getFormAsHTML(parameters), getSearchResultsAsHTML(parameters))
 	page += CrimrHTMLBuilder.getNavigationLinks()
 	page += CrimrHTMLBuilder.getClosingHTML()
 
@@ -156,7 +151,7 @@ def getFormAsHTML(parameters):
 	return filledHtml
 
 def getSearchResultsAsHTML(parameters):
-	''' Returns the search results form the PSQL database, formatted into an HTML String
+	''' Returns the search results from the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
 	outputString = ''

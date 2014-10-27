@@ -8,18 +8,19 @@
     Graham Earley,
     Eric Walker
 '''
-# import cgitb
-# cgitb.enable()
+import cgitb
+cgitb.enable()
 import re   #regex checking module
 from CrimeDataFetcher import CrimeDataFetcher
 
 '''
     CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
-    blocks of HTML via a cleaner interface than directly printing in Phython
+    blocks of HTML via a cleaner interface than directly printing in Python
     main methods.
 
-    Allows us to have the wonders of both a code interface and a template file,
-    without the downsides of managing a bunch of flat .HTML files
+    Most methods insert information into template HTML files, but there
+    are a couple that are so dynamic that it is more efficient to simply
+    generate the whole return string in this file.
 '''
 
 class CrimrHTMLBuilder:
@@ -37,17 +38,14 @@ class CrimrHTMLBuilder:
         '''
             Returns an HTML string which starts the HTML tag
             and fills in all the header info,
-            setting param title as the title
-        '''
+            setting param title as the title.
 
-        template = '''<!DOCTYPE HTML>
-        <html>
-        <head>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <title>[[TITLE]]</title>
-        </head>'''
-        html = template.replace('[[TITLE]]',title)
-        return html
+            The HTML is loaded from a template file.
+        '''
+        templateFile = open('templates/topOfHTML.partial.html', 'r')
+        html = templateFile.read()
+        htmlWithTitle = html.replace('[[TITLE]]',title)
+        return htmlWithTitle
 
     @staticmethod
     def getHTMLTable(headings, data):
@@ -62,6 +60,9 @@ class CrimrHTMLBuilder:
                 - headings : String[]? : Gets formatted into the list as a header row
                 - data : String[][] : Gets formatted into the html as a table
                 if data is at all empty, an HTML error message is returned
+
+            This method doesn't involve a template file because the table size isn't fixed;
+            it involves a loop.
         '''
         if len(data) == 0:
             return '<p>No Results</p>'
@@ -92,15 +93,18 @@ class CrimrHTMLBuilder:
     @staticmethod
     def getHTMLVertTable(headings, data):
         '''
-                Returns an HTML string that creates, fills, and closes
-                a vertical Table tag.
+            Returns an HTML string that creates, fills, and closes
+            a vertical Table tag.
 
-                This parameter setup is designed to interface
-                with CrimeDataFetcher.py
+            This parameter setup is designed to interface
+            with CrimeDataFetcher.py
 
-                params:
-                        -headings: String[] : Gets formatted into the list as the header column
-                        -data: String[]? : Gets formatted into the html as a table
+            params:
+                -headings: String[] : Gets formatted into the list as the header column
+                -data: String[]? : Gets formatted into the html as a table
+
+            Again, this method doesn't involve a template file because the table size isn't fixed;
+            it involves a loop.
         '''
         html = '<table border="1">'
         if headings is not None and data is not None:
@@ -123,39 +127,57 @@ class CrimrHTMLBuilder:
     def getTopOfBody(subpageHeader):
         '''
             Returns an HTML string which starts the Body tag
-            and fills in the first two headers (first one is CRIMR,
-            second one is from parameter)
-        '''
+            and adds the CRIMR logo and the header parameter.
 
-        template = '''<body>
-        <a href="index.py">
-        <img src="Logo.png" alt="CRIMR" width="164" height="59">
-        </a>
-        <h2>[[SUBPAGE_HEADER]]</h2>
+            The HTML is loaded from a template file.
         '''
-        html = template.replace('[[SUBPAGE_HEADER]]',subpageHeader)
-        return html
+        templateFile = open('templates/topOfBody.partial.html', 'r')
+        html = templateFile.read()
+
+        htmlWithHeader = html.replace('[[SUBPAGE_HEADER]]', subpageHeader)
+        return htmlWithHeader
 
     @staticmethod
     def getNavigationLinks():
         '''
             Returns an HTML string which links the user to the secondary
-            features of CRIMR
+            features of CRIMR.
+
+            The HTML is loaded from a template file.
         '''
         dataFetcher = CrimeDataFetcher()
-        return '''<hr>
-        <h2>Other Features</h2>
-        <h3><a href="CrimeScorePage.py">CrimeScore:</a> get a personalized crime score</h3>
-        <h3><a href="CrimeDetails.py?search=%s">Vigilante Button:</a> get a random, unsolved crime</h3>
-        ''' % dataFetcher.getRandomUnsolvedCrimeID()
+        randomCrimeID = dataFetcher.getRandomUnsolvedCrimeID()
+        templateFile = open('templates/navigation.partial.html', 'r')
+        html = templateFile.read()
+
+        # The navigation links to a random crime page, so we need to pass in
+        #   a random crime ID:
+        htmlWithRandomCrimeID = html.replace('[[RANDOM_CRIME_ID]]', str(randomCrimeID))
+        return htmlWithRandomCrimeID
+
+    @staticmethod
+    def getTemplate(fileName):
+        '''
+            Returns the content of any template file in the /templates
+            directory.
+
+            The 'fileName' parameter should only be the name of the file
+            (no directories or filetypes included!)
+        '''
+        fileString = 'templates/'
+        fileString += fileName
+        fileString += '.partial.html'
+
+        templateFile = open(fileString, 'r')
+        return templateFile.read()
 
     @staticmethod
     def getClosingHTML():
         '''
             Returns an HTML string which closes the Body & HTML tags
             as well as inserts the link to the readme.html page
+
+            The HTML is loaded from a template file.
         '''
-        return '''<hr>
-        <p><i>CRIMR : imhoffc, earleyg, walkere</i></p>
-        <p><a href="readme.html">Project ReadMe</a></p>
-        </body></html>'''
+        templateFile = open('templates/footer.partial.html', 'r')
+        return templateFile.read()
