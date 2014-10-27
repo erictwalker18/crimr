@@ -107,37 +107,34 @@ def getDataAsHTML(crimeID):
     outputString = ''
     try:
         dataFetcher = CrimeDataFetcher()
-        try:
-            outputTable = dataFetcher.getCrimeFromID(crimeID)
-            headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
-            outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
-            #Google map embed:
-            outputString+='''
-                <!-- Google map script and div that it pops into -->
-                <script
-                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-                </script>
+        currentCrimeData = dataFetcher.getCrimeFromID(crimeID)
+        headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
+        outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,currentCrimeData)
+        #Google map embed:
+        outputString+='''
+            <!-- Google map script and div that it pops into -->
+            <script
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+            </script>
 
-                <script>
-                function initialize() {
-                var mapProp = {
-                    center:new google.maps.LatLng(%s,%s),
-                    zoom:19,
-                    mapTypeId:google.maps.MapTypeId.ROADMAP };
-                    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                    var marker=new google.maps.Marker({
-                        position: new google.maps.LatLng(%s,%s),
-                        map:map,
-                        title: 'Scene of the Crime'
-                    })
-                }
+            <script>
+            function initialize() {
+            var mapProp = {
+                center:new google.maps.LatLng(%s,%s),
+                zoom:19,
+                mapTypeId:google.maps.MapTypeId.ROADMAP };
+                var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                var marker=new google.maps.Marker({
+                    position: new google.maps.LatLng(%s,%s),
+                    map:map,
+                    title: 'Scene of the Crime'
+                })
+            }
 
-                google.maps.event.addDomListener(window, 'load', initialize);
-                </script>
-                <div id="googleMap" style="width:500px;height:380px;"></div>
-                ''' %(outputTable[0][8], outputTable[0][7], outputTable[0][8], outputTable[0][7])
-        except Exception, e:
-            outputString +=  'Cursor error: %s' % e
+            google.maps.event.addDomListener(window, 'load', initialize);
+            </script>
+            <div id="googleMap" style="width:500px;height:380px;"></div>
+            ''' %(currentCrimeData[8], currentCrimeData[7], currentCrimeData[8], currentCrimeData[7])
     except Exception, e:
         outputString += 'Connection error: %s' % e
 

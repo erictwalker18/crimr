@@ -17,8 +17,8 @@
 '''
 
 import cgi
-# import cgitb
-# cgitb.enable()
+import cgitb
+cgitb.enable()
 
 from CrimeDataFetcher import CrimeDataFetcher
 from CrimrHTMLBuilder import CrimrHTMLBuilder
@@ -160,16 +160,16 @@ def getSearchResultsAsHTML(parameters):
 		Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
 	outputString = ''
+	dataFetcher = CrimeDataFetcher()
 	try:
-		dataFetcher = CrimeDataFetcher()
-		try:
-			outputTable = dataFetcher.getCrimesForSearch(parameters)
+		outputTable = dataFetcher.getCrimesForSearch(parameters)
+		if outputTable is not None:	#print nothing if there was no search
 			headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
 			outputString += CrimrHTMLBuilder.getHTMLTable(headers,outputTable)
-		except Exception, e:
-			outputString +=  'Cursor error: %s' % e
+		else:
+			outputString += 'Use the controls above to get searching'
 	except Exception, e:
-		outputString += 'Connection error: %s' % e
+		outputString +=  'Connection/Cursor Error: %s' % e
 
 	return outputString
 
