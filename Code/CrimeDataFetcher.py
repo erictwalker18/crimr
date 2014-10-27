@@ -2,6 +2,8 @@
 import psycopg2
 # import cgitb
 # cgitb.enable()
+import DatabaseConstants
+
 '''
     CRIMR
 
@@ -24,7 +26,7 @@ class CrimeDataFetcher:
         pass
 
     def _getConnection(self):
-        return psycopg2.connect(database='earleyg', user='earleyg', password='field799java')
+        return psycopg2.connect(database=DatabaseConstants.DATABASE, user=DatabaseConstants.USER, password=DatabaseConstants.PASSWORD)
 
     def cleanInput(self, str):
         ''' Removes any control characters that out HTML might be screwed up by
