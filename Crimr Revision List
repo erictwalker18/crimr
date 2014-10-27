@@ -1,0 +1,14 @@
+
+#Crimr Revision List
+
+### Done
+- Headings Bug Fix, DataFetcher Data Passing now Consistant
+- Security Patch : Passwords no longer in source
+- Updated index.py html blocks to be less bulky and ugly
+- Templates for many sections done
+
+### ToDo
+- CSS, beautification * Charlie
+- HTML Templates for CrimeDetails.py & CrimeScorePage.py  * Graham
+- HTMLBuilder method for forms (defs maybes probs totes for real) * Graham
+- Search Default Values (preserve search values) * Eric
