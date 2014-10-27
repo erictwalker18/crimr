@@ -139,7 +139,14 @@ def getFormAsHTML(parameters):
 				</p>
 				<p><input type="submit" value="Find Crime" /></p>
 			</form>'''
+
+	#to keep the default values for the dropdown menus
+	lowerDistricts = ["tenderloin", "central", "bayview", "ingleside", "mission", "northern", "park", "southern", "taraval", "richmond"]
+	if 'district' in parameters and parameters['district'] in lowerDistricts:
+		html = html.replace('''value=''', '''selected="selected" value=''')
 	filledHtml = html.replace('[SEARCH]',parameters['search'])
+
+
 	return filledHtml
 
 def getSearchResultsAsHTML(parameters):
