@@ -17,9 +17,10 @@ Inspired by Jeff's CSS, which was inspired by Jadrian's CSS.
 }
 
 body {
-  background-color: #bdc3c7;
+  background-color: #ececec;
   color: #2c3e50;
   line-height: 135%;
+  margin: 3% 6% 0em 3%;
   font-family: 'Lato', sans;
   font-size: 91%;
 }
@@ -69,6 +70,14 @@ h3 {
 table, th, td {
    border: 1px solid #7f8c8d;
    border-collapse: collapse;
+}
+
+input {
+  line-height: 1em;
+}
+
+input[type="text"] {
+  width: 40%;
 }
 
 a:visited {
