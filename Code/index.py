@@ -72,16 +72,11 @@ def getPageAsHTML(parameters):
 
 	page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
 	page += CrimrHTMLBuilder.getTopOfBody('Homepage')
-	page += '''
-			<h4>Search</h4>
 
-			<!-- form -->
-			%s
+	page += '<h4>Search</h4>'
+	page += getFormAsHTML(parameters)
+	page += getSearchResultsAsHTML(parameters)
 
-			<!-- results get popped in here -->
-			%s
-
-		''' % (getFormAsHTML(parameters), getSearchResultsAsHTML(parameters))
 	page += CrimrHTMLBuilder.getNavigationLinks()
 	page += CrimrHTMLBuilder.getClosingHTML()
 
@@ -91,72 +86,31 @@ def getFormAsHTML(parameters):
 	'''
 	Returns valid HTML as a string which represents the search form
 	Will be placed directly into the output String of 'getPageAsHTML(parameters)'
+
+	Uses an HTML template for the most part (assembles one form due for scalability purposes)
 	'''
-	#most of the form select options are hardcoded in
-	#districts will never change in the city, hardcoded
-	html = '''<form action="index.py" method="get">
-				<!-- Text Search Box -->
-				<p>Search Crimr:<input type="text" name="search" value="[SEARCH]" /></p>
-				<!-- Narrowing Dropdowns -->
-				<p>
-				by District:
-				<select name="district" id="district">
-					<option value="-">--</option>
-					<option value="tenderloin">Tenderloin</option>
-					<option value="central">Central</option>
-					<option value="bayview">Bayview</option>
-					<option value="ingleside">Ingleside</option>
-					<option value="mission">Mission</option>
-					<option value="northern">Northern</option>
-					<option value="park">Park</option>
-					<option value="southern">Southern</option>
-					<option value="taraval">Taraval</option>
-					<option value="richmond">Richmond</option>
-				</select>
-			'''
-	#categories aren't hardcoded in, due to size and scope
+
+	html = CrimrHTMLBuilder.getTemplate('mainSearchForm')
+	# Most of the search form options are for static elements of the dataset that
+	#  aren't likely to change (e.g. days of week, districts). Thus they are
+	#  hardcoded into the template file.
+
+	# However, due to potential for new categories in future updates to the dataset,
+	#  the category select form options are assembled by grabbing all the categories
+	#  from the database:
 	fetcher = CrimeDataFetcher()
-	cats = fetcher.getListOfCategories()
-	html += '''By Category:<select name="category" id="category">'''
-	html += '''<option value="-">--</option>'''
-	for cat in cats:
-		html += '''<option value="%s" id="%s">%s</option>''' % (cat.lower(),cat.lower(),cat.title())
-	html += '''</select>'''
-	#days and resolution types are also static, so they're hardcoded
-	html += '''
-				by Day of Week:
-				<select name="day" id="day">
-					<option value="-">--</option>
-					<option value="sunday">Sunday</option>
-					<option value="monday">Monday</option>
-					<option value="tuesday">Tuesday</option>
-					<option value="wednsday">Wednesday</option>
-					<option value="thursday">Thursday</option>
-					<option value="friday">Friday</option>
-					<option value="saturday">Saturday</option>
-				</select>
-			'''
-	#resolution types flagged with * represent special searches to CrimeDataFetcher
-	html += '''
-				by Resolution:
-				<select name="resolution" id="resolution">
-					<option value="-">--</option>
-					<option value="*resolved*">Resolved</option> #special case
-					<option value="*unresolved*">Unresolved</option>
-					<option value="arrest">Arrest</option>
-					<option value="book">Booking</option>
-					<option value="cite">Citing</option>
-					<option value="psychopathic">Psychopathic Case</option>
-					<option value="not prosecute">Not Prosecuted</option>
-				</select>
-				</p>
-				<p><input type="submit" value="Find Crime" /></p>
-			</form>'''
-	filledHtml = html.replace('[SEARCH]',parameters['search'])
-	return filledHtml
+	categories = fetcher.getListOfCategories()
+	categoryFormString = '<option value="-">--</option>'
+	for category in categories:
+		categoryFormString += '<option value="%s" id="%s">%s</option>' % (category.lower(),category.lower(),category.title())
+	html = html.replace('[[CATEGORIES_SELECT_FORM_OPTIONS]]', categoryFormString)
+
+	# Keep the search box filled in:
+	html = html.replace('[[SEARCH]]',parameters['search'])
+	return html
 
 def getSearchResultsAsHTML(parameters):
-	''' Returns the search results form the PSQL database, formatted into an HTML String
+	''' Returns the search results from the PSQL database, formatted into an HTML String
 		Will be placed directly into the output String of 'getPageAsHTML(parameters)'
 	'''
 	outputString = ''

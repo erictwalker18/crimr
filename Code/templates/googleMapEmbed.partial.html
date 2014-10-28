@@ -1,0 +1,20 @@
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+
+    <script>
+    function initialize() {
+    var mapProp = {
+        center:new google.maps.LatLng([[Y_COORDINATE]], [[X_COORDINATE]]),
+        zoom:19,
+        mapTypeId:google.maps.MapTypeId.ROADMAP };
+        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+        var marker=new google.maps.Marker({
+            position: new google.maps.LatLng([[Y_COORDINATE]], [[X_COORDINATE]]),
+            map:map,
+            title: 'Scene of the Crime'
+        })
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+<div id="googleMap" style="width:500px;height:380px;"></div>
