@@ -80,20 +80,23 @@ def getPageAsHTML():
 
   page = CrimrHTMLBuilder.getTopOfHTML("CrimeScore")
   page += CrimrHTMLBuilder.getTopOfBody("CrimeScore")
-  page += '''
-      <!-- CrimeScore presentation/readout:-->
-      %s
+  page += getCrimeScoreHTMLReadOut()
 
+  # HTML for the explanatory part of the page, and the form:
+  page += '''
       <h3> Rate the crimes that scare you!</h3>
-      <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
-      <i>(0 = not scary, 10 = horrifying)</i></br>
+
+        <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
+        <i>(0 = not scary, 10 = horrifying)</i></br>
+
       <a href="readme.html"><i>Read the methodology section of our README for more information about this calculation.</i></a>
       </br>
       </br>
 
       <!-- Crime rating form:-->
       %s
-    ''' % (getCrimeScoreHTMLReadOut(), getFormHTML())
+    ''' % (getFormHTML())
+
   page += CrimrHTMLBuilder.getClosingHTML()
 
   return page
@@ -101,6 +104,7 @@ def getPageAsHTML():
 def getFormHTML():
   ''' Builds the rating form's HTML. It goes through each category
       and adds an HTML Select form with options 0-10 for each category.
+
       Forms are put into a table for organizational purposes.
   '''
 

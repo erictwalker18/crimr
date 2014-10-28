@@ -79,29 +79,25 @@ def getPageAsHTML(crimeID):
 
     page = CrimrHTMLBuilder.getTopOfHTML('CRIMR')
     page += CrimrHTMLBuilder.getTopOfBody('Crime Details')
+    page += getDataAsHTML(crimeID)
+
+    # The random crime button!
     page += '''
-            <!-- results get popped in here -->
-            <div id="info">
-            %s
-            </div>
-
-            <div id="features">
-
-            </div>
-            <!-- form -->
             <form action="CrimeDetails.py" method="get">
                 <p><input type="submit" value="Get Unsolved Crime!" /></p>
             </form>
+            '''
 
-        ''' % (getDataAsHTML(crimeID))
     page += CrimrHTMLBuilder.getClosingHTML()
 
     return page
 
 def getDataAsHTML(crimeID):
-    ''' Returns the search results form the PSQL database and a google maps map,
+    ''' Returns the crime info from the PSQL database and a google maps map,
         formatted into an HTML String. Will be placed directly into the output
         String of 'getPageAsHTML()'
+
+        The embedded map is retrieved from a template file.
     '''
 
     outputString = ''
@@ -111,31 +107,18 @@ def getDataAsHTML(crimeID):
             outputTable = dataFetcher.getCrimeFromID(crimeID)
             headers = ['Crime ID','Category','Description','Day of Week','Date','District','Resolution','X','Y']
             outputString += CrimrHTMLBuilder.getHTMLVertTable(headers,outputTable)
-            #Google map embed:
-            outputString+='''
-                <!-- Google map script and div that it pops into -->
-                <script
-                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-                </script>
 
-                <script>
-                function initialize() {
-                var mapProp = {
-                    center:new google.maps.LatLng(%s,%s),
-                    zoom:19,
-                    mapTypeId:google.maps.MapTypeId.ROADMAP };
-                    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                    var marker=new google.maps.Marker({
-                        position: new google.maps.LatLng(%s,%s),
-                        map:map,
-                        title: 'Scene of the Crime'
-                    })
-                }
+            xCoordinateFromTable = outputTable[0][7]
+            yCoordinateFromTable = outputTable[0][8]
 
-                google.maps.event.addDomListener(window, 'load', initialize);
-                </script>
-                <div id="googleMap" style="width:500px;height:380px;"></div>
-                ''' %(outputTable[0][8], outputTable[0][7], outputTable[0][8], outputTable[0][7])
+            # Google map embed:
+            mapEmbed = CrimrHTMLBuilder.getTemplate('googleMapEmbed')
+            # Fill in the coordinates:
+            mapEmbed = mapEmbed.replace('[[X_COORDINATE]]', str(xCoordinateFromTable))
+            mapEmbed = mapEmbed.replace('[[Y_COORDINATE]]', str(yCoordinateFromTable))
+
+            outputString += mapEmbed
+
         except Exception, e:
             outputString +=  'Cursor error: %s' % e
     except Exception, e:
