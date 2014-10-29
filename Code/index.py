@@ -107,6 +107,7 @@ def getFormAsHTML(parameters):
 	for district in districts:
 		html+= '''<option value="%s">%s</option>''' % (district.lower(), district)
 	html+= '''</select>'''
+
 	#categories aren't hardcoded in, due to size and scope
 	fetcher = CrimeDataFetcher()
 	cats = fetcher.getListOfCategories()
@@ -115,6 +116,7 @@ def getFormAsHTML(parameters):
 	for cat in cats:
 		html += '''<option value="%s" id="%s">%s</option>''' % (cat.lower(),cat.lower(),cat.title())
 	html += '''</select>'''
+
 	#days and resolution types are also static, so they're hardcoded
 	daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	html += '''
@@ -125,6 +127,7 @@ def getFormAsHTML(parameters):
 	for day in daysOfWeek:
 		html+= '''<option value="%s">%s</option>''' % (day.lower(), day)
 	html += '''</select>'''
+
 	#resolution types flagged with * represent special searches to CrimeDataFetcher
 	resolutions = ["*Resolved*", "*Unresolved*", "Arrest", "Booking", "Citing", "Psychopathic", "Not Prosecute"]
 	html += '''
@@ -143,7 +146,34 @@ def getFormAsHTML(parameters):
 	#to keep the default values for the dropdown menus
 	lowerDistricts = ["tenderloin", "central", "bayview", "ingleside", "mission", "northern", "park", "southern", "taraval", "richmond"]
 	if 'district' in parameters and parameters['district'] in lowerDistricts:
-		html = html.replace('''value=''', '''selected="selected" value=''')
+		strToReplace = 'value="%s"' % parameters['district']
+		replacementString = 'selected="selected" value="%s"' % parameters['district']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerCats = []
+	for s in cats:
+		lowerCats.append(s.lower())
+	if 'category' in parameters and parameters['category'] in lowerCats:
+		strToReplace = 'value="%s"' % parameters['category']
+		replacementString = 'selected="selected" value="%s"' % parameters['category']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerDaysOfWeek = []
+	for s in daysOfWeek:
+		lowerDaysOfWeek.append(s.lower())
+	if 'day' in parameters and parameters['day'] in lowerDaysOfWeek:
+		strToReplace = 'value="%s"' % parameters['day']
+		replacementString = 'selected="selected" value="%s"' % parameters['day']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerResolutions = []
+	for s in resolutions:
+		lowerResolutions.append(s.lower())
+	if 'resolution' in parameters and parameters['resolution'] in lowerResolutions:
+		strToReplace = 'value="%s"' % parameters['resolution']
+		replacementString = 'selected="selected" value="%s"' % parameters['resolution']
+		html = html.replace(strToReplace, replacementString)
+
 	filledHtml = html.replace('[SEARCH]',parameters['search'])
 
 
