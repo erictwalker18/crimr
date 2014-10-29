@@ -7,11 +7,10 @@
 
 <body>
     <a href="index.py">
-    <img src="Logo.png" alt="CRIMR" width="164" height="59">
+      <img src="Logo.png" alt="CRIMR" width="246" height="88">
     </a>
     <h1>Project Description</h1>
     <i>A product of CRIMR Studios: Eric Walker, Graham Earley, and Charlie Imhoff</i>
-
       <p>
         CRIMR is a webapp that allows you to browse recent crime activity in the
         San Francisco area. You can do a broad search of crime (through districts, descriptions,
@@ -19,7 +18,6 @@
         focus your search in by specifying a certain district, category, day of week, and
         or resolution status, and then searching from there.
       </p>
-
       <h3>Feature List</h3>
         <ul>
           <li>Broad search of crimes (looking through the various attributes)</li>
@@ -57,7 +55,46 @@
         <li>Making a Unified HTMLBuilder class to seperate design from logic.
         And to unify common elements between pages</li>
         <li>Creating a data-fetching class to effectively outsource complex
-        queries from HTML pages and form logic</li>
+queries from HTML pages and form logic</li>
+      </ul>
+
+    <h1>Revisions</h1>
+      <ul>
+        <li>Created template HTML files for cleaner HTML output code</li>
+          <ul>
+            <li>Made templates for HTML snippets that were used multiple times in the code or were large/bulky and made the Python code harder to read</li>
+            <li>The HTML code that remains embedded in our Python HTML generators is idiosyncratic/used once, and/or it is not static (i.e. it iterates through a list to assemble some HTML, such as a form or table from the data).</li>
+            <li>These changes were made because they further separate our HTML from the database interactions. The changes also improve the maintainability of the HTML and the readability of the code (no more huge chunks of HTML embedded within the Python).</li>
+          </ul>
+        <li>Data Consistency</li>
+          <ul>
+            <li>CrimeDataFetcher’s use of data types is now far more consistent. Previously, values returned (or not returned) from a fetch method was not uniform. Now, a successful query will return a filled 2D list, a successful query with no results will return an empty 2D list, a fetch with a blank query will return None, and a connection or cursor error will raise an Exception.</li>
+            <li>CrimeDataFetcher now also returns data more fitted to each fetcher’s specific needs. For example, a fetch to get only the data for one crime based on crimeID now returns a list of that Crime’s data, instead of a table containing only one row. This is more expected, is reads better.</li>
+            <li>This change allows much easier interfacing with the data obtained via CrimeDataFetcher.</li>
+            <li>On a usability note, it also allowed us to more accurately understand where queries went wrong, and inform the user better. For example, now when there are zero results, we can say that explicitly, instead of printing an empty table. And when the search was blank, we can ask the user to input a search.</li>
+          </ul>
+        <li>Security Patch</li>
+          <ul>
+            <li>A database constants file was introduced, allowing us to not show our database credentials in our source code. This drastically reduces risk of outside tampering.</li>
+          </ul>
+        <li>Search Preservation</li>
+          <ul>
+            <li>Previously, when a user submitted a form, the form would reset. This wasn’t great, as the user would not see what they had searched for next to their results. In addition, tweaking a search after a user made it would require filling all the fields out again. Now, all form items (a text field and dropdown menus) in the search preserve their values on a page refresh.</li>
+            <li>This is a pure usability feature. This change connects search to results visibly, as now you can see both together, which was not true previously.</li>
+          </ul>
+        <li>Visual Tweaks</li>
+          <ul>
+            <li>The entire site is slightly more spacious now, as margins have been added. This makes the site look less like a fax from the 90s and thus, more modern. It’s a cleaner, less claustrophobic look</li>
+            <li>The logo has been made slightly larger, for brand identity. On a usability note, it’s the homepage button, so it should be big and important.</li>
+            <li>The look and feel of Search has been tweaked to include a wider search bar, and less text. Instead of text next to each box saying “search by district/category/etc.”, this is now implies via the default values of the dropdown menus being “All Districts/Categories/Etcs.”. This is far cleaner, and more clear than the previous all selector (which was a dash). The search bar was widened to put more emphasis on it, as it is a very powerful element.</li>
+            <li>The CrimeScore page now selects a default value of 5 for each crime when you first load the page. This makes filling out your personal fear level of each crime a bit quicker. This doesn’t quite fit the vision of CrimeScore, but it was a change that our user (grader) demanded, and because we are so loyal to our clients, we went ahead with the change.</li>
+          </ul>
+        <li>Code Style</li>
+          <ul>
+            <li>Light changes to code style to make things more legible. For example, moving main methods down to the bottom of code files.</li>
+            <li>Documentation updated to indicate phase_4 code.</li>
+            <li>Documentation updated to be more consistent and clear by consolidating file descriptions at the top of each file and unifying format.</li>
+          </ul>
       </ul>
 
     <h1>Citations, etc.</h1>
@@ -79,14 +116,14 @@
         <li><a href="showsource.py?source=style.css">style.css</a></li>
         <li><a href="showsource.py?source=showsource.py">showsource.py</a></li>
         <li>Data Set Cleaning</li>
-        <ul>
-          <li><a href="showsource.py?source=Dataset_Cleaning/CSVcleaner.py">CSVCleaner.py</a></li>
-          <li><a href="Dataset_Cleaning/Full_Crime_Dataset.csv">Full_Crime_Dataset.csv (big file)</a></li>
-          <li><a href="Dataset_Cleaning/dataset_with_the_useful_columns.csv">dataset_with_the_useful_columns.csv</a></li>
-          <li><a href="Dataset_Cleaning/python_cleaned_dates_csv.csv">python_cleaned_dates_csv.csv</a></li>
-          <li><a href="Dataset_Cleaning/truncated_data.csv">truncated_data.csv</a></li>
-          <li><a href="Dataset_Cleaning/truncated_data_NoHeaders.csv">truncated_data_NoHeaders.csv</a></li>
-        </ul>
+          <ul>
+            <li><a href="showsource.py?source=Dataset_Cleaning/CSVcleaner.py">CSVCleaner.py</a></li>
+            <li><a href="Dataset_Cleaning/Full_Crime_Dataset.csv">Full_Crime_Dataset.csv (big file)</a></li>
+            <li><a href="Dataset_Cleaning/dataset_with_the_useful_columns.csv">dataset_with_the_useful_columns.csv</a></li>
+            <li><a href="Dataset_Cleaning/python_cleaned_dates_csv.csv">python_cleaned_dates_csv.csv</a></li>
+            <li><a href="Dataset_Cleaning/truncated_data.csv">truncated_data.csv</a></li>
+            <li><a href="Dataset_Cleaning/truncated_data_NoHeaders.csv">truncated_data_NoHeaders.csv</a></li>
+          </ul>
       </ul>
 
     <hr>
