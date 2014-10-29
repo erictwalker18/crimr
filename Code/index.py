@@ -2,15 +2,14 @@
 '''
 	CRIMR
 
-	index.py (phase_3)
+	index.py (phase_4)
 
 	Charlie Imhoff,
 	Graham Earley,
 	Eric Walker
 '''
-
 '''
-	The Homepage for CRIMR.
+	Crimr | Homepage
 
 	The bread and butter of our app, search is home here, as well as
 	the primary links to all other CRIMR pages.
@@ -54,16 +53,6 @@ def getParametersFromFormOrDefaults():
 	except Exception, e:
 		parameters = {'search':'nothing'}
 	return parameters
-
-
-
-#PAGE CONSTRUCTION
-def main():
-	''' Gets the parameters from defaults or a cgi form, and prints the HTML page
-	'''
-	parameters = getParametersFromFormOrDefaults()
-	print CrimrHTMLBuilder.getStartingSequence(),
-	print(getPageAsHTML(parameters)),
 
 def getPageAsHTML(parameters):
 	''' Constructs and returns an HTML formatted string that can be printed, and thus
@@ -155,6 +144,14 @@ def getSearchResultsAsHTML(parameters):
 		outputString +=  'Connection/Cursor Error: %s' % e
 
 	return outputString
+
+#PAGE CONSTRUCTION
+def main():
+	''' Gets the parameters from defaults or a cgi form, and prints the HTML page
+	'''
+	parameters = getParametersFromFormOrDefaults()
+	print CrimrHTMLBuilder.getStartingSequence(),
+	print(getPageAsHTML(parameters)),
 
 if __name__ == '__main__':
 	main()

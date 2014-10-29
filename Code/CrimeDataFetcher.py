@@ -1,25 +1,27 @@
 #!/usr/bin/python
-import psycopg2
-import cgitb
-cgitb.enable()
-import DatabaseConstants
-
 '''
     CRIMR
 
-    CrimeDataFetcher.py (phase_3)
+    CrimeDataFetcher.py (phase_4)
 
     Charlie Imhoff,
     Graham Earley,
     Eric Walker
 '''
+'''
+    Crimr | CrimeDataFetcher
 
-class CrimeDataFetcher:
-    '''
     Our DataSource.py equivalent. CrimeDataFetcher is a great little interface for
     automatically setting up an psql connection, grabbing a cursor, and filling a table
     with results from said cursor.
-    '''
+'''
+
+import psycopg2
+#import cgitb
+#cgitb.enable()
+import DatabaseConstants
+
+class CrimeDataFetcher:
 
     #UTILITY METHODS
     def __init__(self):

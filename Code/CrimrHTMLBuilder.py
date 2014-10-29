@@ -2,18 +2,15 @@
 '''
     CRIMR
 
-    CrimrHTMLBuilder.py (phase_3)
+    CrimrHTMLBuilder.py (phase_4)
 
     Charlie Imhoff,
     Graham Earley,
     Eric Walker
 '''
-import cgitb
-cgitb.enable()
-import re   #regex checking module
-from CrimeDataFetcher import CrimeDataFetcher
-
 '''
+    Crimr | CrimrHTMLBuilder
+
     CrimrHTMLBuilder allows a quick, easy way to get reusable, flexible
     blocks of HTML via a cleaner interface than directly printing in Python
     main methods.
@@ -22,6 +19,10 @@ from CrimeDataFetcher import CrimeDataFetcher
     are a couple that are so dynamic that it is more efficient to simply
     generate the whole return string in this file.
 '''
+#import cgitb
+#cgitb.enable()
+import re   #regex checking module
+from CrimeDataFetcher import CrimeDataFetcher
 
 class CrimrHTMLBuilder:
 

@@ -3,20 +3,19 @@
 '''
     CRIMR
 
-    CrimeScorePage.py (phase_3)
+    CrimeScorePage.py (phase_4)
 
     Charlie Imhoff,
     Graham Earley,
     Eric Walker
 '''
 '''
-  CRIMR | CrimeScore
+    CRIMR | CrimeScorePage
 
-  This program generates the HTML output for the
-  CrimeScore page. It calls on CrimeDataFetcher.py
-  and CrimeScore.py in order to get the information
-  required to tell the user their CrimeScore.
-
+    This program generates the HTML output for the
+    CrimeScore page. It calls on CrimeDataFetcher.py
+    and CrimeScore.py in order to get the information
+    required to tell the user their CrimeScore.
 '''
 
 import cgi
@@ -63,14 +62,6 @@ def getRatingsHashFromForm():
     parameters = {"ERROR":0}
 
   return parameters
-
-
-# PAGE CONSTRUCTION
-def main():
-  ''' Prints the HTML page (using the CrimrHTMLBuilder where applicable)
-  '''
-  print CrimrHTMLBuilder.getStartingSequence()
-  print(getPageAsHTML())
 
 def getPageAsHTML():
   ''' Constructs and returns an HTML formatted string that can be printed, and thus
@@ -190,6 +181,12 @@ def getCrimeScoreHTMLReadOut():
 
     return outputString
 
+# PAGE CONSTRUCTION
+def main():
+  ''' Prints the HTML page (using the CrimrHTMLBuilder where applicable)
+  '''
+  print CrimrHTMLBuilder.getStartingSequence()
+  print(getPageAsHTML())
 
 if __name__ == '__main__':
   main()

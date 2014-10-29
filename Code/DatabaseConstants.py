@@ -7,8 +7,9 @@
     Graham Earley,
     Eric Walker
 '''
-
 '''
+    Crimr | DatabaseConstants
+    
     Non-public source file. Should not be accessable by users, or Apache
     The grader and Jeff can see it if they look in our repo.
 '''

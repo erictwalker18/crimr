@@ -2,7 +2,11 @@
 '''
 	used by CRIMR
 
-	showsource.py (phase_3)
+	showsource.py (phase_4)
+
+	Eric Walker,
+	Charlie Imhoff,
+	Graham Earley
 '''
 ''' showsource.py
     Jeff Ondich, 16 October 2013

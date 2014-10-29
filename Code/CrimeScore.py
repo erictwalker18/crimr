@@ -1,20 +1,24 @@
 '''
     CRIMR
 
-    CrimeScore.py (phase_3)
+    CrimeScore.py (phase_4)
 
     Charlie Imhoff,
     Graham Earley,
     Eric Walker
 '''
+'''
+    Crimr | CrimeScore
+
+    The class that calculates CrimeScore values
+    and other appropriate information about the
+    user's rating of categories of crime.
+'''
 
 from CrimeDataFetcher import CrimeDataFetcher
 
 class CrimeScore:
-  ''' The class that calculates CrimeScore values
-      and other appropriate information about the
-      user's rating of categories of crime.
-  '''
+
   # Set the highest possible score:
   MAX_SCORE = 10
 

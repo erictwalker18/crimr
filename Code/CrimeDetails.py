@@ -1,9 +1,8 @@
 #!/usr/bin/python
-
 '''
     CRIMR
 
-    CrimeDetails.py (phase_3)
+    CrimeDetails.py (phase_4)
 
     Eric Walker,
     Charlie Imhoff,
@@ -14,8 +13,9 @@
             (developers.google.com)
             (https://developers.google.com/maps/documentation/javascript/examples/marker-simple)
 '''
-
 '''
+    Crimr | CrimeDetails
+
     This file prints out an HTML page of a crime with a given ID or a random
     unsolved crime.
 '''
@@ -58,15 +58,6 @@ def getParametersFromFormOrDefaults():
     except Exception, e:
         pass
     return parameter
-
-#main
-def main():
-    ''' Gets the parameters from cgi input or a random PSQL algorithm and prints
-        the page.
-    '''
-    parameter = getParametersFromFormOrDefaults()
-    print CrimrHTMLBuilder.getStartingSequence(),
-    print getPageAsHTML(parameter)
 
 #Printing methods
 def getPageAsHTML(crimeID):
@@ -123,6 +114,15 @@ def getDataAsHTML(crimeID):
         outputString += 'Connection error: %s' % e
 
     return outputString
+
+#main
+def main():
+    ''' Gets the parameters from cgi input or a random PSQL algorithm and prints
+        the page.
+    '''
+    parameter = getParametersFromFormOrDefaults()
+    print CrimrHTMLBuilder.getStartingSequence(),
+    print getPageAsHTML(parameter)
 
 if __name__ == '__main__':
     main()
