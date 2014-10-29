@@ -105,7 +105,8 @@ def getFormAsHTML(parameters):
 		categoryFormString += '<option value="%s" id="%s">%s</option>' % (category.lower(),category.lower(),category.title())
 	html = html.replace('[[CATEGORIES_SELECT_FORM_OPTIONS]]', categoryFormString)
 
-	#to keep the default values for the dropdown menus
+	#Preserve Search Form on page refresh
+	#Keep values for the dropdown menus
 	lowerDistricts = ["tenderloin", "central", "bayview", "ingleside", "mission", "northern", "park", "southern", "taraval", "richmond"]
 	if 'district' in parameters and parameters['district'] in lowerDistricts:
 		strToReplace = 'value="%s"' % parameters['district']
@@ -134,6 +135,7 @@ def getFormAsHTML(parameters):
 
 	# Keep the search box filled in:
 	html = html.replace('[[SEARCH]]',parameters['search'])
+
 	return html
 
 def getSearchResultsAsHTML(parameters):
