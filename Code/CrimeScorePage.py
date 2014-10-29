@@ -86,7 +86,8 @@ def getPageAsHTML():
   page += '''
       <h3> Rate the crimes that scare you!</h3>
 
-        <p>For each crime-category below, consider how scary those types of crimes are to you.</p>
+        <p>For each crime category below, consider how scary those types of crimes are to you.</p>
+        <p>Each category rating has been defaulted to 5, indicating a medium-level of fear for each type of crime. Adjust accordingly.</p>
         <i>(0 = not scary, 10 = horrifying)</i></br>
 
       <a href="readme.html"><i>Read the methodology section of our README for more information about this calculation.</i></a>
@@ -124,7 +125,10 @@ def getFormHTML():
     outputString += '<p>%s: </p>' % category
     outputString += '<select name="%s" id=%s>' % (category, category)
     for num in range(0,CrimeScore.MAX_SCORE + 1):
-      outputString+= '<option value="%s">%i</option>' % (str(num), num)
+      if num == 5:
+        outputString += '<option value="%s" selected>%i</option>' % (str(num), num)
+      else:
+        outputString += '<option value="%s">%i</option>' % (str(num), num)
     outputString += '</select>'
     outputString += '</td>'
 
