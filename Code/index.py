@@ -100,7 +100,7 @@ def getFormAsHTML(parameters):
 	#  from the database:
 	fetcher = CrimeDataFetcher()
 	categories = fetcher.getListOfCategories()
-	categoryFormString = '<option value="-">--</option>'
+	categoryFormString = ''
 	for category in categories:
 		categoryFormString += '<option value="%s" id="%s">%s</option>' % (category.lower(),category.lower(),category.title())
 	html = html.replace('[[CATEGORIES_SELECT_FORM_OPTIONS]]', categoryFormString)

@@ -86,7 +86,7 @@ class CrimeDataFetcher:
                     longOr = " (district ILIKE '%[search]%' OR description ILIKE '%[search]%' OR category ILIKE '%[search]%' OR resolution ILIKE '%[search]%' OR dayofweek ILIKE '[search]%')"
                     query += longOr.replace("[search]",word)
 
-            if 'district' in searchParams and searchParams['district'] != '-':
+            if 'district' in searchParams and searchParams['district'] != '*all*':
                 district = self.cleanInput(searchParams['district'])
                 if queryHasWhere:
                     query += ' AND'
@@ -96,7 +96,7 @@ class CrimeDataFetcher:
                 toQ = " district ILIKE '%[s]%'"
                 query += toQ.replace('[s]',district)
 
-            if 'category' in searchParams and searchParams['category'] != '-':
+            if 'category' in searchParams and searchParams['category'] != '*all*':
                 category = self.cleanInput(searchParams['category'])
                 if queryHasWhere:
                     query += ' AND'
@@ -106,7 +106,7 @@ class CrimeDataFetcher:
                 toQ = " category ILIKE '[s]'"
                 query += toQ.replace('[s]',category)
 
-            if 'resolution' in searchParams and searchParams['resolution'] != '-':
+            if 'resolution' in searchParams and searchParams['resolution'] != '*all*':
                 resolution = self.cleanInput(searchParams['resolution'])
                 if queryHasWhere:
                     query += ' AND'
@@ -120,7 +120,7 @@ class CrimeDataFetcher:
                 else:
                     toQ = " resolution ILIKE '%[s]%'"
                     query += toQ.replace('[s]',resolution)
-            if 'day' in searchParams and searchParams['day'] != '-':
+            if 'day' in searchParams and searchParams['day'] != '*all*':
                 day = self.cleanInput(searchParams['day'])
                 if queryHasWhere:
                     query += ' AND'

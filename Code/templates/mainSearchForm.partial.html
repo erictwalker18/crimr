@@ -1,12 +1,12 @@
 <form action="index.py" method="get">
       <!-- Text Search Box -->
-      <p>Search Crimr:<input type="text" name="search" value="[[SEARCH]]" /></p>
+      <p><input type="text" name="search" value="[[SEARCH]]" /></p>
 
       <!-- Dropdowns for narrowing down search -->
+      <!-- District -->
       <p>
-      by District:
       <select name="district" id="district">
-        <option value="-">--</option>
+        <option value="*all*">All Districts</option>
         <option value="tenderloin">Tenderloin</option>
         <option value="central">Central</option>
         <option value="bayview">Bayview</option>
@@ -19,17 +19,16 @@
         <option value="richmond">Richmond</option>
       </select>
 
-      by Category:
+      <!-- Category -->
       <select name="category" id="category">
-        
+        <option value="*all*">All Categories</option>
         <!-- Built using the database due to potential for new categories: -->
         [[CATEGORIES_SELECT_FORM_OPTIONS]]
-
       </select>
 
-      by Day of Week:
+      <!-- Days of Week -->
       <select name="day" id="day">
-        <option value="-">--</option>
+        <option value="*all*">All Days</option>
         <option value="sunday">Sunday</option>
         <option value="monday">Monday</option>
         <option value="tuesday">Tuesday</option>
@@ -39,10 +38,10 @@
         <option value="saturday">Saturday</option>
       </select>
 
-      by Resolution:
+      <!-- Status -->
       <!-- resolution types flagged with * represent special searches to CrimeDataFetcher: -->
       <select name="resolution" id="resolution">
-        <option value="-">--</option>
+        <option value="*all*">All Statuses</option>
         <option value="*resolved*">Resolved</option> #special case
         <option value="*unresolved*">Unresolved</option>
         <option value="arrest">Arrest</option>
@@ -51,6 +50,6 @@
         <option value="psychopathic">Psychopathic Case</option>
         <option value="not prosecute">Not Prosecuted</option>
       </select>
+      <input type="submit" value="Find Crime" />
       </p>
-      <p><input type="submit" value="Find Crime" /></p>
     </form>
