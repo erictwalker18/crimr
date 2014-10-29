@@ -105,6 +105,33 @@ def getFormAsHTML(parameters):
 		categoryFormString += '<option value="%s" id="%s">%s</option>' % (category.lower(),category.lower(),category.title())
 	html = html.replace('[[CATEGORIES_SELECT_FORM_OPTIONS]]', categoryFormString)
 
+	#to keep the default values for the dropdown menus
+	lowerDistricts = ["tenderloin", "central", "bayview", "ingleside", "mission", "northern", "park", "southern", "taraval", "richmond"]
+	if 'district' in parameters and parameters['district'] in lowerDistricts:
+		strToReplace = 'value="%s"' % parameters['district']
+		replacementString = 'selected="selected" value="%s"' % parameters['district']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerCats = []
+	for s in categories:
+		lowerCats.append(s.lower())
+	if 'category' in parameters and parameters['category'] in lowerCats:
+		strToReplace = 'value="%s"' % parameters['category']
+		replacementString = 'selected="selected" value="%s"' % parameters['category']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerDaysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+	if 'day' in parameters and parameters['day'] in lowerDaysOfWeek:
+		strToReplace = 'value="%s"' % parameters['day']
+		replacementString = 'selected="selected" value="%s"' % parameters['day']
+		html = html.replace(strToReplace, replacementString)
+
+	lowerResolutions = ['*all*', '*resolved*', '*unresolved*', 'arrest', 'book', 'cite', 'psychopathic', 'not prosecute']
+	if 'resolution' in parameters and parameters['resolution'] in lowerResolutions:
+		strToReplace = 'value="%s"' % parameters['resolution']
+		replacementString = 'selected="selected" value="%s"' % parameters['resolution']
+		html = html.replace(strToReplace, replacementString)
+
 	# Keep the search box filled in:
 	html = html.replace('[[SEARCH]]',parameters['search'])
 	return html
