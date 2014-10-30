@@ -12,8 +12,10 @@
     <h1>Project Description</h1>
     <i>A product of CRIMR Studios: Eric Walker, Graham Earley, and Charlie Imhoff</i>
       <p>
-        CRIMR is a webapp that allows you to browse recent crime activity in the
-        San Francisco area. You can do a broad search of crime (through districts, descriptions,
+        CRIMR is a webapp that allows you to browse crime activity in the
+        San Francisco area. The dataset is static, and doesn't update.
+        The data only contains crimes occuring between 8/25/2014 and 9/30/2014.
+        You can do a broad search of crime (through districts, descriptions,
         categories, resolution status of the crime, and even the day of week), or you can
         focus your search in by specifying a certain district, category, day of week, and
         or resolution status, and then searching from there.
@@ -82,6 +84,11 @@ queries from HTML pages and form logic</li>
           <li>Previously, when a user submitted a form, the form would reset. This wasn’t great, as the user would not see what they had searched for next to their results. In addition, tweaking a search after a user made it would require filling all the fields out again. Now, all form items (a text field and dropdown menus) in the search preserve their values on a page refresh.</li>
           <li>This is a pure usability feature. This change connects search to results visibly, as now you can see both together, which was not true previously.</li>
         </ul>
+        <li>CrimeScore Default Rankings</li>
+        <ul>
+          <li>The CrimeScorePage now automatically selects a default value of 5 for each crime as apposed to 0 (we assume the user is initially medium-scared of everything, rather than completely fearless).</li>
+          <li>This makes setting values a quicker, simpler process.</li>
+        </ul>
         <li>Visual Tweaks</li>
         <ul>
           <li>The entire site is slightly more spacious now, as margins have been added. This makes the site look less like a fax from the 90s and thus, more modern. It’s a cleaner, less claustrophobic look</li>
@@ -93,11 +100,6 @@ queries from HTML pages and form logic</li>
           <li>Light changes to code style to make things more readable. For example, moving main methods down to the bottom of code files.</li>
           <li>Documentation updated to indicate phase_4 code.</li>
           <li>Documentation updated to be more consistent and clear by consolidating file descriptions at the top of each file and unifying format.</li>
-        </ul>
-        <li>Defaulted ratings for each crime category to 5 for the CrimeScore</li>
-        <ul>
-          <li>For usability and understandability for users.</li>
-          <li>Makes setting values a quicker process (we assume the user is initially medium-scared of everything, rather than completely fearless).</li>
         </ul>
       </ul>
 
